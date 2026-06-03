@@ -1,0 +1,2498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IA SUMMIT TUCUMÁN 2026 — STANNUM · 17 de junio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.1.14/dist/lenis.css">
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+
+<style>
+/* =====================================================
+   IA SUMMIT TUCUMÁN 2026 — STANNUM HT DARK v3
+   Three.js · Radial Orbital · Globe · 80/15/5
+   ===================================================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:   #050606;
+  --ink:     #080808;
+  --c1:      #0d0d0d;
+  --c2:      #111111;
+  --c3:      #181818;
+  --c4:      #222222;
+  --cyan:    #32CBBF;
+  --cyan-hi: #5DEDE0;
+  --white:   #FFFFFF;
+  --grey:    #666666;
+  --ghost:   rgba(255,255,255,.45);
+  --muted:   rgba(255,255,255,.25);
+  --fd: 'Archivo Black',sans-serif;
+  --fb: 'Inter',sans-serif;
+  --fm: 'JetBrains Mono',monospace;
+}
+html{scroll-behavior:auto}
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:var(--fb);
+  font-weight:300;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ─── CURSOR ─────────────────────────── */
+#cd{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;
+  transform:translate(-50%,-50%);width:6px;height:6px;background:var(--cyan);
+  transition:width .12s,height .12s,opacity .2s}
+#cr{position:fixed;pointer-events:none;z-index:9998;border-radius:50%;
+  transform:translate(-50%,-50%);width:32px;height:32px;
+  border:1px solid rgba(50,203,191,.35);
+  transition:width .18s,height .18s,opacity .2s}
+
+/* ─── GRAIN ──────────────────────────── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9990;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  animation:grain 10s steps(12) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}8%{transform:translate(-2%,-3%)}
+  16%{transform:translate(3%,2%)}24%{transform:translate(-1%,4%)}
+  32%{transform:translate(4%,-1%)}40%{transform:translate(-3%,3%)}
+  48%{transform:translate(2%,-4%)}56%{transform:translate(-4%,1%)}
+  64%{transform:translate(1%,3%)}72%{transform:translate(-2%,-2%)}
+  80%{transform:translate(3%,-3%)}88%{transform:translate(-3%,2%)}
+}
+
+/* ─── CANVAS ─────────────────────────── */
+#pc{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0}
+
+/* ─── NAV ─────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 56px;
+  transition:background .4s,backdrop-filter .4s;
+}
+nav.scrolled{
+  background:rgba(5,6,6,.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.nlogo-group{display:flex;align-items:center;gap:10px}
+.nav-sep{font-family:var(--fd);font-size:11px;color:rgba(50,203,191,.3);letter-spacing:.05em;padding:0 2px}
+.nlogo-ag{display:flex;align-items:center;gap:8px}
+.nlogo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nlogo-iso{
+  display:flex;align-items:center;justify-content:center;
+  width:34px;height:34px;
+  border-radius:6px;
+  border:1px solid rgba(50,203,191,.25);
+  background:rgba(0,0,0,.6);
+  overflow:hidden;flex-shrink:0;
+}
+.nlogo-iso svg{width:22px;height:22px}
+.nname{font-family:var(--fd);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--white)}
+.nlinks{display:flex;gap:36px;list-style:none}
+.nlinks a{
+  font-family:var(--fm);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;
+  transition:color .2s;
+}
+.nlinks a:hover{color:var(--white)}
+.ncta{
+  font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--cyan);border:1px solid rgba(50,203,191,.35);
+  padding:10px 22px;text-decoration:none;transition:all .2s;border-radius:2px;
+}
+.ncta:hover{background:rgba(50,203,191,.08);border-color:var(--cyan)}
+
+/* ─── HERO ────────────────────────────── */
+.hero{
+  position:relative;height:100vh;overflow:hidden;
+  display:flex;align-items:center;
+  background:var(--ink);
+}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:
+    repeating-linear-gradient(125deg,rgba(50,203,191,.011) 0 1px,transparent 1px 60px),
+    repeating-linear-gradient(55deg,rgba(255,255,255,.007) 0 1px,transparent 1px 44px),
+    linear-gradient(180deg,var(--ink) 0%,var(--black) 100%);
+}
+.hero::after{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:2;
+  background:linear-gradient(to right,
+    var(--ink) 0%,
+    rgba(8,8,8,.9) 30%,
+    rgba(8,8,8,.35) 60%,
+    rgba(8,8,8,.1) 100%
+  );
+}
+.hero-left{
+  position:relative;z-index:3;
+  padding:0 56px;
+  max-width:680px;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  height:100%;
+  padding-top:80px;
+}
+.hero-date-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--fm);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--cyan);
+  border:1px solid rgba(50,203,191,.3);
+  padding:8px 18px 8px 12px;
+  border-radius:2px;
+  margin-bottom:36px;
+  background:rgba(50,203,191,.04);
+  width:fit-content;
+}
+.hero-date-badge::before{
+  content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;
+  animation:datePulse 2s ease-in-out infinite;
+}
+@keyframes datePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero-kicker{
+  font-family:var(--fm);font-size:11px;letter-spacing:.26em;
+  color:rgba(255,255,255,.3);text-transform:uppercase;
+  margin-bottom:20px;
+}
+.hero-h1{
+  font-family:var(--fd);
+  font-size:clamp(52px,7.5vw,110px);
+  line-height:.87;letter-spacing:-.025em;text-transform:uppercase;
+  margin-bottom:32px;
+}
+.hero-h1 .line{display:block;overflow:hidden}
+.hero-h1 .li{display:block}
+.hero-h1 .accent{color:var(--cyan)}
+.hero-claim{
+  font-family:var(--fb);font-size:16px;font-weight:300;
+  color:rgba(255,255,255,.55);line-height:1.7;
+  max-width:460px;margin-bottom:40px;
+  border-left:2px solid rgba(50,203,191,.35);
+  padding-left:18px;
+}
+.hero-meta{
+  display:flex;gap:28px;margin-bottom:44px;flex-wrap:wrap;
+}
+.hero-meta-item{
+  font-family:var(--fm);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(255,255,255,.3);
+  display:flex;align-items:center;gap:8px;
+}
+.hero-meta-item strong{color:rgba(255,255,255,.75);font-weight:400}
+.hero-meta-item::before{
+  content:'';width:4px;height:4px;border:1px solid rgba(50,203,191,.6);
+  transform:rotate(45deg);flex-shrink:0;
+}
+.hero-ctas{display:flex;gap:16px;align-items:center}
+.btn-primary{
+  font-family:var(--fd);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--cyan);color:var(--black);
+  padding:16px 36px;text-decoration:none;
+  border-radius:0;border:none;cursor:none;
+  display:inline-block;
+  animation:ctaPulse 3.5s ease-in-out infinite;
+  transition:transform .2s;
+}
+.btn-primary:hover{transform:translateY(-2px)}
+@keyframes ctaPulse{
+  0%,100%{box-shadow:0 0 20px rgba(50,203,191,.3)}
+  50%{box-shadow:0 0 40px rgba(50,203,191,.6),0 0 80px rgba(50,203,191,.2)}
+}
+.btn-outline{
+  font-family:var(--fm);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  background:transparent;color:rgba(255,255,255,.5);
+  padding:16px 28px;text-decoration:none;
+  border:1px solid rgba(255,255,255,.12);
+  transition:all .2s;
+}
+.btn-outline:hover{border-color:rgba(50,203,191,.4);color:var(--cyan)}
+.hero-spline{
+  position:absolute;right:0;top:0;
+  width:58%;height:100%;z-index:2;
+  pointer-events:auto;
+}
+.hero-spline spline-viewer{
+  width:100%;height:100%;
+  --spline-viewer-cursor-color:transparent;
+}
+.hero-scroll{
+  position:absolute;right:52px;bottom:44px;z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.hero-scroll span{
+  font-family:var(--fm);font-size:10px;letter-spacing:.22em;
+  color:var(--grey);text-transform:uppercase;writing-mode:vertical-rl;
+}
+.sline{
+  width:1px;height:48px;
+  background:linear-gradient(to bottom,var(--cyan),transparent);
+  animation:slineAnim 2.4s ease-in-out infinite;
+}
+@keyframes slineAnim{
+  0%{transform:scaleY(0);transform-origin:top;opacity:1}
+  45%{transform:scaleY(1);transform-origin:top;opacity:1}
+  46%{transform:scaleY(1);transform-origin:bottom}
+  100%{transform:scaleY(0);transform-origin:bottom;opacity:0}
+}
+
+/* ─── TICKER ─────────────────────────── */
+.ticker{
+  position:relative;z-index:3;overflow:hidden;
+  background:var(--c1);
+  border-top:1px solid rgba(50,203,191,.12);
+  border-bottom:1px solid rgba(255,255,255,.04);
+  padding:15px 0;
+}
+.ttrack{display:flex;width:max-content;animation:troll 24s linear infinite}
+.ticker:hover .ttrack{animation-play-state:paused}
+.tcont{display:flex;gap:48px;padding-right:48px;white-space:nowrap;align-items:center}
+.titem{font-family:var(--fm);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.titem.hi{color:rgba(50,203,191,.6)}
+.tsep{width:4px;height:4px;border:1px solid rgba(50,203,191,.35);transform:rotate(45deg);flex-shrink:0}
+@keyframes troll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── STAT ─────────────────────────────── */
+.stat-sec{
+  position:relative;z-index:3;
+  min-height:90vh;display:flex;align-items:center;justify-content:center;
+  background:var(--black);overflow:hidden;
+}
+.stat-sec::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 40%,rgba(50,203,191,.07) 0%,transparent 55%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.007) 0 1px,transparent 1px 80px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.005) 0 1px,transparent 1px 80px);
+}
+.stat-inner{position:relative;z-index:1;text-align:center;max-width:900px;padding:0 56px}
+.stat-num{
+  font-family:var(--fd);
+  font-size:clamp(120px,22vw,280px);
+  line-height:.85;letter-spacing:-.04em;text-transform:uppercase;
+  background:linear-gradient(180deg,#fff 25%,rgba(255,255,255,.15) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-text{
+  font-family:var(--fd);font-size:clamp(16px,2.4vw,28px);
+  letter-spacing:.04em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-top:20px;line-height:1.3;
+}
+.stat-src{
+  font-family:var(--fm);font-size:11px;letter-spacing:.22em;
+  color:rgba(50,203,191,.5);text-transform:uppercase;
+  margin-top:24px;
+}
+
+/* ─── WHITE BREAK ─────────────────────── */
+.white-break{
+  position:relative;z-index:3;
+  background:var(--white);overflow:hidden;
+  padding:100px 56px 0;min-height:88vh;
+  display:flex;flex-direction:column;
+}
+.wb-label{font-family:var(--fm);font-size:10px;letter-spacing:.28em;color:rgba(0,0,0,.35);text-transform:uppercase;margin-bottom:32px}
+.wb-label::before{content:'// '}
+.wb-heading{
+  font-family:var(--fd);font-size:clamp(44px,7vw,96px);
+  line-height:.9;letter-spacing:-.02em;text-transform:uppercase;
+  color:var(--black);max-width:700px;margin-bottom:32px;
+}
+.wb-body{font-family:var(--fb);font-size:16px;font-weight:300;color:rgba(0,0,0,.5);max-width:400px;line-height:1.8;margin-bottom:auto;padding-bottom:60px}
+.wb-overflow{
+  font-family:var(--fd);
+  font-size:clamp(80px,20vw,240px);
+  line-height:.8;letter-spacing:-.04em;text-transform:uppercase;
+  color:var(--black);white-space:nowrap;margin-left:-4px;
+}
+
+/* ─── SPEAKER ────────────────────────── */
+.speaker{
+  position:relative;z-index:3;
+  background:var(--c1);overflow:hidden;padding:0;
+}
+.speaker-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:90vh;
+}
+/* Photo side */
+.spk-photo-col{
+  position:relative;overflow:hidden;
+  background:var(--black);
+  min-height:600px;
+}
+.spk-photo-col img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  display:block;
+  opacity:.85;
+  transition:opacity .6s;
+}
+.spk-photo-col img.loaded{opacity:1}
+.spk-photo-overlay{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to right, transparent 55%, var(--c1) 100%),
+    linear-gradient(to bottom, transparent 55%, var(--c1) 100%);
+}
+/* Fallback isotipo if photo fails */
+.spk-photo-fallback{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 40%,rgba(50,203,191,.07),transparent 70%);
+}
+.spk-photo-fallback svg{width:200px;height:200px;
+  filter:drop-shadow(0 0 4px var(--cyan)) drop-shadow(0 0 24px rgba(50,203,191,.8)) drop-shadow(0 0 80px rgba(50,203,191,.4));
+  animation:isoFloat 5s ease-in-out infinite;
+}
+@keyframes isoFloat{0%,100%{transform:translateY(0) rotateY(0deg)}50%{transform:translateY(-10px) rotateY(4deg)}}
+
+/* Text side */
+.spk-text-col{
+  padding:80px 64px;
+  display:flex;flex-direction:column;
+  justify-content:center;
+}
+.spk-label{font-family:var(--fm);font-size:10px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;margin-bottom:20px}
+.spk-label::before{content:'// '}
+.spk-name{font-family:var(--fd);font-size:clamp(44px,6vw,80px);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:16px}
+.spk-role{font-family:var(--fm);font-size:11px;letter-spacing:.22em;color:rgba(50,203,191,.7);text-transform:uppercase;margin-bottom:28px}
+.spk-bio{font-size:16px;font-weight:300;color:var(--ghost);line-height:1.75;max-width:440px;margin-bottom:36px}
+.spk-creds{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
+.spk-cred{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--fm);font-size:11px;letter-spacing:.14em;
+  color:rgba(255,255,255,.4);text-transform:uppercase;
+}
+.spk-cred::before{content:'';width:5px;height:5px;border:1px solid rgba(50,203,191,.7);transform:rotate(45deg);flex-shrink:0}
+
+/* ─── 3D ISOTIPO SECTION ──────────────── */
+.iso3d-sec{
+  position:relative;z-index:3;
+  background:var(--black);
+  overflow:hidden;
+  padding:100px 56px;
+  display:flex;align-items:center;justify-content:center;
+  min-height:80vh;
+}
+.iso3d-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 50%,rgba(50,203,191,.06) 0%,transparent 55%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.006) 0 1px,transparent 1px 72px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.005) 0 1px,transparent 1px 72px);
+}
+.iso3d-layout{
+  position:relative;z-index:1;
+  max-width:1100px;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;
+}
+.iso3d-text .sec-label{font-family:var(--fm);font-size:10px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;margin-bottom:16px}
+.iso3d-text .sec-label::before{content:'// '}
+.iso3d-heading{
+  font-family:var(--fd);font-size:clamp(44px,6vw,80px);
+  line-height:.9;letter-spacing:-.02em;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.iso3d-body{
+  font-size:16px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.75;
+  max-width:380px;margin-bottom:40px;
+}
+.iso3d-tags{display:flex;flex-wrap:wrap;gap:10px}
+.iso3d-tag{
+  font-family:var(--fm);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(50,203,191,.6);border:1px solid rgba(50,203,191,.2);
+  padding:7px 16px;border-radius:2px;
+}
+#iso3d-wrap{
+  width:460px;height:460px;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+#iso3d-wrap canvas{
+  width:100% !important;
+  height:100% !important;
+  display:block;
+}
+/* Fallback rings if Three.js fails */
+.iso3d-fallback{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;
+}
+
+/* ─── SEC LABELS (shared) ─────────────── */
+.sec-label{font-family:var(--fm);font-size:10px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;margin-bottom:16px}
+.sec-label::before{content:'// '}
+.sec-heading{font-family:var(--fd);font-size:clamp(40px,6vw,82px);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:72px}
+
+/* ─── AGENDA — RADIAL ORBITAL ─────────── */
+.agenda{
+  position:relative;z-index:3;
+  background:var(--black);padding:120px 56px;overflow:hidden;
+}
+.agenda-bg{
+  position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 1px,transparent 1px 72px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.012) 0 1px,transparent 1px 72px);
+}
+.agenda-inner{position:relative;z-index:1;max-width:960px;margin:0 auto}
+
+/* Radial orbit container */
+.radial-tl{
+  display:flex;flex-direction:column;align-items:center;
+}
+.radial-orbit-wrap{
+  position:relative;
+  width:520px;height:520px;
+  flex-shrink:0;
+}
+/* SVG lines layer */
+.radial-svg{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:1;
+}
+/* Decorative rings */
+.radial-ring{
+  position:absolute;top:50%;left:50%;border-radius:50%;
+  border:1px solid rgba(50,203,191,.06);
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+/* Center display */
+.radial-center{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:144px;height:144px;border-radius:50%;
+  border:1px solid rgba(50,203,191,.18);
+  background:rgba(5,6,6,.95);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:16px;z-index:10;
+  pointer-events:none;
+}
+.rc-time{
+  font-family:var(--fm);font-size:18px;font-weight:500;
+  color:var(--cyan);letter-spacing:.1em;margin-bottom:6px;
+}
+.rc-short{
+  font-family:var(--fd);font-size:9px;letter-spacing:.12em;
+  color:rgba(255,255,255,.6);text-transform:uppercase;line-height:1.3;
+}
+/* Orbit nodes */
+.radial-node{
+  position:absolute;
+  width:0;height:0;
+  z-index:5;
+}
+.radial-dot{
+  position:absolute;
+  top:-8px;left:-8px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--c3);
+  border:1px solid rgba(50,203,191,.25);
+  cursor:pointer;
+  transition:background .25s,border-color .25s,box-shadow .25s,transform .2s;
+}
+.radial-node.active .radial-dot{
+  background:var(--cyan);
+  border-color:var(--cyan);
+  box-shadow:0 0 0 4px rgba(50,203,191,.12),0 0 18px rgba(50,203,191,.5);
+  transform:scale(1.25);
+}
+.radial-dot:hover{transform:scale(1.3);border-color:rgba(50,203,191,.7)}
+.radial-lbl{
+  position:absolute;
+  font-family:var(--fm);font-size:10px;letter-spacing:.12em;
+  color:rgba(255,255,255,.3);text-transform:uppercase;
+  white-space:nowrap;pointer-events:none;
+  top:50%;transform:translateY(-50%);
+  transition:color .25s;
+}
+.radial-node.active .radial-lbl{color:var(--cyan)}
+
+/* Detail panel */
+.radial-detail{
+  width:100%;max-width:560px;
+  margin-top:36px;
+  background:rgba(13,13,13,.85);
+  border:1px solid rgba(50,203,191,.15);
+  border-top:2px solid var(--cyan);
+  padding:32px 36px;
+  min-height:140px;
+  transition:opacity .3s;
+}
+.rdp-time{
+  font-family:var(--fm);font-size:12px;letter-spacing:.2em;
+  color:rgba(50,203,191,.7);margin-bottom:10px;font-weight:500;
+}
+.rdp-title{
+  font-family:var(--fd);font-size:22px;letter-spacing:-.01em;
+  text-transform:uppercase;margin-bottom:12px;line-height:1.1;
+}
+.rdp-desc{
+  font-size:14px;font-weight:300;color:rgba(255,255,255,.45);line-height:1.65;
+}
+.radial-hint{
+  font-family:var(--fm);font-size:10px;letter-spacing:.2em;
+  color:rgba(255,255,255,.12);text-transform:uppercase;
+  text-align:center;margin-top:16px;
+}
+
+/* ─── LATAM GLOBE ──────────────────────── */
+.globe-sec{
+  position:relative;z-index:3;
+  background:var(--c1);padding:120px 56px;overflow:hidden;
+}
+.globe-sec-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 70% 50%,rgba(50,203,191,.04) 0%,transparent 50%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 1px,transparent 1px 72px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.010) 0 1px,transparent 1px 72px);
+}
+.globe-inner{
+  position:relative;z-index:1;max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.globe-desc{
+  font-size:16px;font-weight:300;color:rgba(255,255,255,.45);
+  line-height:1.75;margin-bottom:36px;max-width:380px;
+}
+.globe-cities{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.city-chip{
+  font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.07);
+  padding:6px 14px;border-radius:2px;transition:all .25s;cursor:default;
+}
+.city-chip.active{color:var(--cyan);border-color:rgba(50,203,191,.3);background:rgba(50,203,191,.04)}
+.globe-drag-hint{
+  font-family:var(--fm);font-size:10px;letter-spacing:.18em;
+  color:rgba(255,255,255,.15);text-transform:uppercase;margin-top:12px;
+}
+.globe-canvas-wrap{
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+#globeCanvas{
+  cursor:grab;
+  border-radius:50%;
+}
+#globeCanvas:active{cursor:grabbing}
+
+/* ─── BENEFICIOS ─────────────────────── */
+.beneficios{
+  position:relative;z-index:3;
+  background:var(--c1);padding:120px 56px;
+}
+.benef-inner{max-width:1200px;margin:0 auto}
+.benef-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  margin-top:60px;
+}
+.benef-card{
+  background:linear-gradient(148deg,#171919 0%,#111313 100%);
+  border-top:1px solid rgba(50,203,191,.2);
+  padding:40px 36px;
+  transition:border-color .3s,transform .25s;
+  cursor:default;
+}
+.benef-card:hover{border-top-color:var(--cyan);transform:translateY(-3px)}
+.benef-num{font-family:var(--fm);font-size:11px;letter-spacing:.2em;color:rgba(50,203,191,.35);text-transform:uppercase;margin-bottom:20px}
+.benef-title{font-family:var(--fd);font-size:18px;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:12px;line-height:1.1}
+.benef-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.65}
+
+/* ─── TRUST ──────────────────────────── */
+.trust{
+  position:relative;z-index:3;
+  background:var(--black);padding:80px 56px;
+  border-top:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.trust-inner{max-width:1100px;margin:0 auto;text-align:center}
+.trust-label{font-family:var(--fm);font-size:10px;letter-spacing:.26em;color:rgba(255,255,255,.2);text-transform:uppercase;margin-bottom:44px}
+.trust-logos{display:flex;align-items:center;justify-content:center;gap:56px;flex-wrap:wrap}
+.trust-logo{
+  font-family:var(--fd);font-size:13px;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.2);
+  transition:color .3s;border:1px solid rgba(255,255,255,.08);
+  padding:10px 22px;border-radius:2px;
+}
+.trust-logo:hover{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.15)}
+.trust-stat{margin-top:40px;font-family:var(--fm);font-size:11px;letter-spacing:.2em;color:rgba(50,203,191,.45);text-transform:uppercase}
+
+/* ─── CTA ─────────────────────────────── */
+.registro{
+  position:relative;z-index:3;
+  background:var(--black);min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;text-align:center;
+}
+.registro::before{
+  content:'';position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(125deg,rgba(50,203,191,.011) 0 1px,transparent 1px 55px),
+    repeating-linear-gradient(55deg,rgba(255,255,255,.007) 0 1px,transparent 1px 40px);
+}
+.rings{position:absolute;top:50%;left:50%;pointer-events:none}
+.ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(50,203,191,.08);
+  transform:translate(-50%,-50%);
+  animation:ringAnim 6s ease-out infinite;
+}
+.ring:nth-child(1){width:280px;height:280px;animation-delay:0s}
+.ring:nth-child(2){width:480px;height:480px;animation-delay:1s}
+.ring:nth-child(3){width:680px;height:680px;animation-delay:2s}
+.ring:nth-child(4){width:880px;height:880px;animation-delay:3s}
+@keyframes ringAnim{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}
+  25%{opacity:.8}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.15)}
+}
+.cta-inner{position:relative;z-index:2;max-width:700px;padding:0 48px}
+.cta-label{font-family:var(--fm);font-size:10px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;margin-bottom:28px}
+.cta-label::before{content:'// '}
+.cta-h{font-family:var(--fd);font-size:clamp(52px,9vw,116px);line-height:.87;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:24px}
+.cta-h .ghost{color:transparent;-webkit-text-stroke:1.5px rgba(50,203,191,.45)}
+.cta-sub{font-size:16px;font-weight:300;color:var(--ghost);max-width:400px;margin:0 auto 48px;line-height:1.75}
+.mbtn-wrap{display:inline-block;padding:24px;margin:-24px}
+.gbtn{
+  display:inline-block;position:relative;
+  font-family:var(--fd);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;text-decoration:none;
+  color:var(--white);padding:20px 60px;
+  background:transparent;cursor:none;overflow:hidden;
+}
+.gbtn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(130deg,var(--cyan),rgba(50,150,200,.7));
+  padding:1px;
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  transition:opacity .3s;
+}
+.gbtn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(130deg,var(--cyan),rgba(50,150,200,.8));
+  opacity:0;transition:opacity .3s;z-index:-1;
+}
+.gbtn:hover::after{opacity:1}
+.gbtn:hover{color:var(--black)}
+.cta-note{font-family:var(--fm);font-size:10px;letter-spacing:.2em;color:rgba(255,255,255,.2);text-transform:uppercase;margin-top:20px}
+
+/* ─── FOOTER ─────────────────────────── */
+footer{
+  position:relative;z-index:3;
+  background:var(--ink);border-top:1px solid rgba(255,255,255,.05);
+  padding:64px 56px 40px;
+}
+.ft-grid{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;
+  margin-bottom:48px;
+}
+.ft-logo{display:flex;align-items:center;gap:12px;margin-bottom:16px;text-decoration:none}
+.ft-logo-iso{width:32px;height:32px;border-radius:5px;border:1px solid rgba(50,203,191,.2);background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center}
+.ft-logo-iso svg{width:20px;height:20px}
+.ft-logoname{font-family:var(--fd);font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+.ft-desc{font-size:13px;font-weight:300;color:var(--grey);line-height:1.7;max-width:220px;margin-bottom:16px}
+.ft-mantra{font-family:var(--fm);font-size:10px;letter-spacing:.18em;color:rgba(50,203,191,.3);text-transform:uppercase}
+.ft-col h5{font-family:var(--fm);font-size:10px;letter-spacing:.24em;color:var(--cyan);text-transform:uppercase;margin-bottom:18px}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-col a{font-size:13px;font-weight:300;color:rgba(255,255,255,.25);text-decoration:none;transition:color .2s}
+.ft-col a:hover{color:var(--white)}
+.ft-bot{max-width:1200px;margin:0 auto;padding-top:24px;border-top:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;align-items:center}
+.ft-copy,.ft-tag{font-family:var(--fm);font-size:10px;letter-spacing:.12em;color:rgba(255,255,255,.12);text-transform:uppercase}
+
+/* ─── SCROLLBAR ──────────────────────── */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:rgba(50,203,191,.2)}
+::-webkit-scrollbar-thumb:hover{background:var(--cyan)}
+.gsap-hide{opacity:0;transform:translateY(28px)}
+
+/* ─── CO-PRODUCCIÓN ─────────────────── */
+.coprod-sec{
+  position:relative;z-index:3;
+  background:var(--ink);
+  padding:100px 56px 120px;
+  overflow:hidden;
+}
+.coprod-sec-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 50%,rgba(50,203,191,.04) 0%,transparent 60%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.009) 0 1px,transparent 1px 72px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.007) 0 1px,transparent 1px 72px);
+}
+.coprod-inner{
+  position:relative;z-index:1;
+  max-width:1100px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.coprod-label{font-family:var(--fm);font-size:10px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase;margin-bottom:14px}
+.coprod-label::before{content:'// '}
+.coprod-heading{
+  font-family:var(--fd);font-size:clamp(32px,4vw,56px);
+  line-height:.9;letter-spacing:-.02em;text-transform:uppercase;
+  margin-bottom:64px;
+}
+.coprod-row{
+  display:flex;align-items:center;justify-content:center;gap:40px;
+}
+.coprod-logo-block{
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+}
+.coprod-logo-display{
+  width:280px;height:280px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(5,6,6,.85);
+  border:1px solid rgba(50,203,191,.14);
+  border-radius:20px;
+  padding:32px;
+  position:relative;
+  transition:border-color .3s;
+}
+.coprod-logo-display:hover{border-color:rgba(50,203,191,.32);}
+.coprod-logo-display::before{
+  content:'';position:absolute;inset:-1px;border-radius:20px;
+  background:radial-gradient(ellipse at 50% 20%,rgba(50,203,191,.07),transparent 60%);
+  pointer-events:none;
+}
+.coprod-logo-display svg,.coprod-logo-display img{
+  width:100%;height:100%;object-fit:contain;display:block;
+}
+/* 3D canvas en iso3d-wrap */
+#iso3d-wrap{overflow:hidden;border-radius:12px;}
+.coprod-name{
+  font-family:var(--fd);font-size:14px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.55);
+}
+.coprod-sub{
+  font-family:var(--fm);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(50,203,191,.35);
+  margin-top:-6px;
+}
+.coprod-sep{
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  flex-shrink:0;
+}
+.coprod-sep-line{
+  width:1px;height:100px;
+  background:linear-gradient(to bottom,transparent,rgba(50,203,191,.18),transparent);
+}
+.coprod-sep-x{
+  font-family:var(--fd);font-size:20px;letter-spacing:.12em;
+  color:rgba(50,203,191,.25);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — Mobile · Tablet · Desktop
+   ═══════════════════════════════════════════ */
+
+/* ── Touch devices: disable custom cursor ── */
+@media (pointer:coarse){
+  body{cursor:auto}
+  #cd,#cr{display:none}
+  .btn-primary,.gbtn{cursor:pointer}
+  #globeCanvas{cursor:grab}
+}
+
+/* ── 1200px: contenido muy ancho ─────────── */
+@media (max-width:1200px){
+  .iso3d-layout{gap:48px}
+  .globe-inner{gap:48px}
+  #iso3d-wrap{width:380px;height:380px}
+}
+
+/* ── 1024px: tablet landscape ────────────── */
+@media (max-width:1024px){
+  nav{padding:18px 36px}
+  .hero-left{padding:0 36px;padding-top:80px;max-width:100%}
+  .hero-spline{width:45%}
+  .stat-inner{padding:0 36px}
+  .white-break{padding:80px 36px 0}
+  .iso3d-sec{padding:80px 36px}
+  .iso3d-layout{grid-template-columns:1fr;gap:40px;text-align:center}
+  .iso3d-text{display:flex;flex-direction:column;align-items:center}
+  .iso3d-body{max-width:100%}
+  #iso3d-wrap{width:320px;height:320px;margin:0 auto}
+  .agenda{padding:80px 36px}
+  .globe-sec{padding:80px 36px}
+  .globe-inner{grid-template-columns:1fr;gap:40px;text-align:center}
+  .globe-desc{max-width:100%}
+  .globe-cities{justify-content:center}
+  .globe-canvas-wrap{justify-content:center}
+  .beneficios{padding:80px 36px}
+  .benef-grid{grid-template-columns:repeat(2,1fr)}
+  .trust{padding:60px 36px}
+  .registro{padding:0 36px}
+  .coprod-sec{padding:80px 36px 100px}
+  footer{padding:56px 36px 36px}
+  .ft-grid{grid-template-columns:2fr 1fr 1fr;gap:36px}
+  .speaker-inner{grid-template-columns:1fr 1fr}
+  .spk-text-col{padding:60px 44px}
+}
+
+/* ── 768px: tablet portrait / móvil grande ─ */
+@media (max-width:768px){
+  /* Nav */
+  nav{padding:16px 24px}
+  .nlinks{display:none}
+  .ncta{font-size:9px;padding:8px 14px}
+
+  /* Hero */
+  .hero-left{padding:0 24px;padding-top:90px;max-width:100%}
+  .hero-spline{display:none}
+  .hero::after{background:none}
+  .hero-claim{font-size:15px}
+  .hero-ctas{flex-wrap:wrap}
+  .hero-scroll{display:none}
+
+  /* Sections padding */
+  .stat-inner{padding:0 24px}
+  .white-break{padding:60px 24px 0}
+  .iso3d-sec{padding:60px 24px}
+  .agenda{padding:60px 24px}
+  .globe-sec{padding:60px 24px}
+  .beneficios{padding:60px 24px}
+  .trust{padding:48px 24px}
+  .coprod-sec{padding:60px 24px 80px}
+  footer{padding:48px 24px 32px}
+
+  /* Speaker — stack vertically */
+  .speaker-inner{grid-template-columns:1fr}
+  .spk-photo-col{min-height:360px;max-height:420px}
+  .spk-text-col{padding:48px 28px}
+  .spk-bio{font-size:15px}
+
+  /* 3D isotipo */
+  .iso3d-layout{gap:32px}
+  #iso3d-wrap{width:280px;height:280px}
+
+  /* Radial orbital — scale transform (DOM stays 520px so JS calc works) */
+  .radial-orbit-wrap{
+    transform:scale(0.62);
+    transform-origin:top center;
+    margin-bottom:-198px;
+  }
+
+  /* Globe — scale canvas via CSS */
+  #globeCanvas{
+    max-width:320px !important;
+    max-height:320px !important;
+    width:320px !important;
+    height:320px !important;
+  }
+
+  /* Benef grid */
+  .benef-grid{grid-template-columns:repeat(2,1fr)}
+  .benef-card{padding:28px 24px}
+
+  /* Trust */
+  .trust-logos{gap:24px}
+
+  /* Co-producción */
+  .coprod-row{flex-direction:column;gap:28px}
+  .coprod-sep{flex-direction:row;gap:12px}
+  .coprod-sep-line{width:80px;height:1px;background:linear-gradient(to right,transparent,rgba(50,203,191,.18),transparent)}
+  .coprod-logo-display{width:220px;height:220px;padding:24px}
+
+  /* Footer */
+  .ft-grid{grid-template-columns:1fr 1fr;gap:28px}
+  .ft-bot{flex-direction:column;gap:10px;text-align:center}
+
+  /* CTA */
+  .cta-inner{padding:0 24px}
+  .cta-sub{font-size:15px}
+}
+
+/* ── 480px: móvil ─────────────────────────── */
+@media (max-width:480px){
+  /* Nav logo — simplify */
+  .nname{display:none}
+  .nav-sep{display:none}
+
+  /* Hero */
+  .hero-left{padding:0 20px;padding-top:80px}
+  .hero-meta{gap:14px}
+  .hero-ctas{flex-direction:column;align-items:flex-start}
+  .btn-primary,.btn-outline{width:100%;text-align:center;box-sizing:border-box}
+
+  /* Sections */
+  .stat-inner{padding:0 20px}
+  .white-break{padding:48px 20px 0}
+  .iso3d-sec{padding:48px 20px}
+  .agenda{padding:48px 20px}
+  .globe-sec{padding:48px 20px}
+  .beneficios{padding:48px 20px}
+  .trust{padding:40px 20px}
+  .coprod-sec{padding:48px 20px 64px}
+  footer{padding:40px 20px 28px}
+
+  /* Radial orbital — smaller scale */
+  .radial-orbit-wrap{
+    transform:scale(0.5);
+    transform-origin:top center;
+    margin-bottom:-260px;
+  }
+
+  /* Globe */
+  #globeCanvas{
+    max-width:270px !important;
+    max-height:270px !important;
+    width:270px !important;
+    height:270px !important;
+  }
+
+  /* Benef — 1 column */
+  .benef-grid{grid-template-columns:1fr}
+
+  /* Speaker */
+  .spk-text-col{padding:36px 20px}
+  .spk-creds{display:none}
+
+  /* Co-prod logos smaller */
+  .coprod-logo-display{width:180px;height:180px;padding:20px}
+
+  /* Footer — 1 column */
+  .ft-grid{grid-template-columns:1fr;gap:24px}
+  .ft-bot{flex-direction:column;gap:8px;text-align:center}
+
+  /* CTA */
+  .cta-inner{padding:0 20px}
+  .gbtn{padding:18px 40px}
+  .rings .ring{display:none}
+  .rings .ring:nth-child(1),.rings .ring:nth-child(2){display:block}
+
+  /* Iso3d */
+  #iso3d-wrap{width:240px;height:240px}
+
+  /* White break overflow text — avoid horizontal scroll */
+  .wb-overflow{font-size:clamp(56px,18vw,160px)}
+}
+
+/* ════════════════════════════════════════
+   MOBILE ENHANCEMENTS — hamburger · WA float · agenda list
+   ════════════════════════════════════════ */
+
+/* ─── HAMBURGER BUTTON ─────────────── */
+.hbg{
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;width:44px;height:44px;min-width:44px;
+  background:transparent;border:none;cursor:pointer;
+  padding:0;z-index:600;flex-shrink:0;
+}
+.hbg span{
+  display:block;width:24px;height:1.5px;
+  background:var(--white);
+  transform-origin:center;
+  transition:transform .3s,opacity .2s,transform .3s;
+}
+.hbg.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hbg.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ─── MOBILE NAV OVERLAY ───────────── */
+.mnav-overlay{
+  position:fixed;inset:0;z-index:450;
+  background:rgba(5,6,6,.97);
+  backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transform:translateX(100%);
+  transition:transform .42s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.mnav-overlay.open{
+  transform:translateX(0);
+  pointer-events:auto;
+}
+.mnav-links-m{
+  display:flex;flex-direction:column;
+  align-items:flex-start;gap:0;list-style:none;
+  margin-bottom:40px;width:100%;
+  padding:0 40px;max-width:440px;
+}
+.mnav-links-m li{
+  width:100%;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.mnav-links-m a{
+  font-family:var(--fd);font-size:36px;letter-spacing:-.02em;
+  text-transform:uppercase;color:rgba(255,255,255,.45);
+  text-decoration:none;transition:color .2s;
+  display:block;padding:14px 0;line-height:1;
+}
+.mnav-links-m a:active,.mnav-links-m a:hover{color:var(--white)}
+.mnav-links-m a.hl{color:var(--cyan)}
+.mnav-cta-m{
+  font-family:var(--fm);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--black);
+  background:var(--cyan);padding:15px 44px;
+  text-decoration:none;display:inline-block;
+}
+.mnav-meta-m{
+  margin-top:20px;
+  font-family:var(--fm);font-size:9px;letter-spacing:.18em;
+  color:rgba(255,255,255,.15);text-transform:uppercase;
+  text-align:center;
+}
+
+/* ─── FLOATING WHATSAPP CTA ─────────── */
+.wa-float{
+  position:fixed;bottom:22px;right:16px;z-index:400;
+  display:none;
+  align-items:center;gap:8px;
+  background:var(--cyan);color:var(--black);
+  padding:12px 18px 12px 14px;
+  text-decoration:none;
+  font-family:var(--fd);font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;
+  box-shadow:0 4px 28px rgba(50,203,191,.35);
+  animation:waFloat 3s ease-in-out infinite;
+  transition:transform .15s,opacity .3s;
+  border-radius:2px;
+}
+.wa-float:active{transform:scale(.95)}
+@keyframes waFloat{
+  0%,100%{box-shadow:0 4px 28px rgba(50,203,191,.35)}
+  50%{box-shadow:0 6px 44px rgba(50,203,191,.6),0 0 0 3px rgba(50,203,191,.1)}
+}
+.wa-float svg{width:16px;height:16px;flex-shrink:0}
+.wa-float.hidden{opacity:0;pointer-events:none}
+
+/* ─── AGENDA MOBILE LIST ─────────────── */
+.agenda-list-mobile{
+  display:none;
+  flex-direction:column;gap:0;
+  margin-top:48px;width:100%;
+  border:1px solid rgba(50,203,191,.12);
+}
+.alm-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:18px 20px;cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  transition:background .2s;
+}
+.alm-item:last-child{border-bottom:none}
+.alm-item.active{background:rgba(50,203,191,.04);border-left:2px solid var(--cyan)}
+.alm-item:not(.active){border-left:2px solid transparent}
+.alm-time{
+  font-family:var(--fm);font-size:11px;font-weight:500;
+  color:rgba(50,203,191,.65);letter-spacing:.08em;
+  white-space:nowrap;flex-shrink:0;padding-top:2px;
+  min-width:44px;
+}
+.alm-title{
+  font-family:var(--fd);font-size:13px;letter-spacing:-.005em;
+  text-transform:uppercase;line-height:1.2;color:var(--white);
+  transition:margin .25s;
+}
+.alm-item.active .alm-title{margin-bottom:8px}
+.alm-desc{
+  font-size:13px;font-weight:300;color:rgba(255,255,255,.4);
+  line-height:1.6;max-height:0;overflow:hidden;
+  transition:max-height .3s ease;
+}
+.alm-item.active .alm-desc{max-height:120px}
+
+/* ─── RESPONSIVE OVERRIDES v2 ─────── */
+@media (max-width:768px){
+  .hbg{display:flex}
+  .wa-float{display:flex}
+  /* hide orbital + replace with list */
+  .radial-orbit-wrap,.radial-detail,.radial-hint{display:none !important;margin:0 !important}
+  .agenda-list-mobile{display:flex}
+  /* registro section */
+  .registro{min-height:min(100vh,760px)}
+
+  /* ── ROBOT — show on mobile ──────────────── */
+  .hero{
+    flex-direction:column;
+    height:auto;
+    min-height:100svh;
+    align-items:stretch;
+  }
+  .hero::after{background:none}
+  .hero-left{
+    order:0;
+    width:100%;
+    height:auto;
+    justify-content:flex-start;
+    padding-bottom:0 !important;
+  }
+  .hero-spline{
+    display:block !important;
+    position:relative !important;
+    width:100% !important;
+    height:340px !important;
+    order:1;
+    flex-shrink:0;
+    pointer-events:auto;
+  }
+  .hero-spline spline-viewer{
+    width:100% !important;
+    height:100% !important;
+    display:block !important;
+  }
+}
+@media (max-width:480px){
+  .mnav-links-m{padding:0 28px}
+  .mnav-links-m a{font-size:28px;padding:12px 0}
+  .wa-float{bottom:16px;right:12px;padding:11px 14px 11px 12px}
+  .registro{min-height:auto;padding:80px 20px}
+  .hero-spline{height:300px !important}
+}
+</style>
+</head>
+<body>
+
+<div id="cd"></div>
+<div id="cr"></div>
+<canvas id="pc"></canvas>
+
+<!-- NAV -->
+<nav id="mnav">
+  <div class="nlogo-group">
+    <a href="#" class="nlogo">
+      <div class="nlogo-iso">
+        <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="160" height="160" rx="18" fill="#000"/>
+          <path fill="#32CBBF" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
+          <path fill="#32CBBF" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
+        </svg>
+      </div>
+      <span class="nname">STANNUM</span>
+    </a>
+    <span class="nav-sep">×</span>
+    <div class="nlogo-ag" style="gap:10px">
+      <div class="nlogo-iso">
+        <img src="agencia-g.svg" alt="Agencia G" style="width:22px;height:22px;display:block;"/>
+      </div>
+      <div style="width:1px;height:26px;background:rgba(255,255,255,.18);flex-shrink:0"></div>
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:var(--fd);font-size:12px;letter-spacing:.05em;text-transform:none;color:var(--white);line-height:1">Gabriel Páez Laurent</span>
+        <span style="font-family:var(--fm);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:rgba(50,203,191,.5);line-height:1">Agencia de Eventos</span>
+      </div>
+    </div>
+  </div>
+  <ul class="nlinks">
+    <li><a href="#speaker">Speaker</a></li>
+    <li><a href="#agenda">Agenda</a></li>
+    <li><a href="#latam">Alcance</a></li>
+    <li><a href="#registro">Inscripción</a></li>
+  </ul>
+  <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="ncta">Reservar lugar →</a>
+  <button class="hbg" id="hbgBtn" aria-label="Menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── Mobile nav overlay ─── -->
+<div class="mnav-overlay" id="mnavOverlay" aria-hidden="true">
+  <ul class="mnav-links-m">
+    <li><a href="#speaker">Speaker</a></li>
+    <li><a href="#agenda">Agenda</a></li>
+    <li><a href="#latam">Alcance</a></li>
+    <li><a href="#beneficios">Beneficios</a></li>
+    <li><a href="#registro" class="hl">Inscripción →</a></li>
+  </ul>
+  <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="mnav-cta-m">RESERVAR LUGAR</a>
+  <div class="mnav-meta-m">IA SUMMIT TUCUMÁN · 17.06.2026</div>
+</div>
+
+<!-- ─── Floating WhatsApp CTA ─── -->
+<a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026"
+   target="_blank" class="wa-float" id="waFloat" aria-label="Reservar por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+  RESERVAR
+</a>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-date-badge" id="hdatebadge">17 DE JUNIO 2026 · HILTON TUCUMÁN</div>
+    <div class="hero-kicker" id="hkicker">Alto Rendimiento Argentina</div>
+    <h1 class="hero-h1">
+      <span class="line"><span class="li" id="hl1">IA</span></span>
+      <span class="line"><span class="li" id="hl2">SUMMIT</span></span>
+      <span class="line"><span class="li accent" id="hl3">TUCUMÁN</span></span>
+    </h1>
+    <p class="hero-claim" id="hclaim">"Alto rendimiento potenciado<br>por inteligencia artificial."</p>
+    <div class="hero-meta" id="hmeta">
+      <div class="hero-meta-item"><strong>HILTON TUCUMÁN</strong></div>
+      <div class="hero-meta-item"><strong>ACREDITACIÓN 17:30 hs</strong></div>
+      <div class="hero-meta-item"><strong>CUPOS LIMITADOS</strong></div>
+    </div>
+    <div class="hero-ctas" id="hctas">
+      <div class="mbtn-wrap">
+        <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="btn-primary">RESERVAR LUGAR →</a>
+      </div>
+      <a href="#agenda" class="btn-outline">Ver agenda</a>
+    </div>
+  </div>
+  <div class="hero-spline">
+    <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="spinner-small-dark"></spline-viewer>
+  </div>
+  <div class="hero-scroll" id="hscroll">
+    <div class="sline"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══ TICKER ═══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ttrack">
+    <div class="tcont">
+      <span class="titem hi">17 DE JUNIO 2026</span><span class="tsep"></span>
+      <span class="titem">HILTON TUCUMÁN</span><span class="tsep"></span>
+      <span class="titem hi">ACREDITACIÓN 17:30 HS</span><span class="tsep"></span>
+      <span class="titem">CUPOS LIMITADOS</span><span class="tsep"></span>
+      <span class="titem hi">MARTÍN MERLINI</span><span class="tsep"></span>
+      <span class="titem">LÍDERES Y EJECUTIVOS NOA</span><span class="tsep"></span>
+      <span class="titem hi">STANNUM</span><span class="tsep"></span>
+      <span class="titem">ALTO RENDIMIENTO + IA</span><span class="tsep"></span>
+    </div>
+    <div class="tcont" aria-hidden="true">
+      <span class="titem hi">17 DE JUNIO 2026</span><span class="tsep"></span>
+      <span class="titem">HILTON TUCUMÁN</span><span class="tsep"></span>
+      <span class="titem hi">ACREDITACIÓN 17:30 HS</span><span class="tsep"></span>
+      <span class="titem">CUPOS LIMITADOS</span><span class="tsep"></span>
+      <span class="titem hi">MARTÍN MERLINI</span><span class="tsep"></span>
+      <span class="titem">LÍDERES Y EJECUTIVOS NOA</span><span class="tsep"></span>
+      <span class="titem hi">STANNUM</span><span class="tsep"></span>
+      <span class="titem">ALTO RENDIMIENTO + IA</span><span class="tsep"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STAT 74% ═══ -->
+<section class="stat-sec">
+  <div class="stat-inner">
+    <div class="stat-num gsap-hide" id="snum">74%</div>
+    <div class="stat-text gsap-hide" id="stxt">De los líderes no está listo<br>para la era de la inteligencia artificial</div>
+    <div class="stat-src gsap-hide">— Microsoft · Work Trend Index · 2025</div>
+  </div>
+</section>
+
+<!-- ═══ WHITE BREAK ═══ -->
+<section class="white-break">
+  <div class="wb-label gsap-hide">El momento es ahora</div>
+  <h2 class="wb-heading gsap-hide">No vas a escuchar<br>una charla.<br>Vas a transformarte.</h2>
+  <p class="wb-body gsap-hide">IA Summit Tucumán 2026 es un evento de alto rendimiento diseñado para ejecutivos y líderes del NOA que quieren transformar cómo trabajan, lideran y escalan con IA.</p>
+  <div class="wb-overflow">NOA 2026</div>
+</section>
+
+<!-- ═══ SPEAKER (con foto de Martín) ═══ -->
+<section class="speaker" id="speaker">
+  <div class="speaker-inner">
+
+    <!-- FOTO DE MARTÍN -->
+    <div class="spk-photo-col">
+      <img
+        id="spkPhoto"
+        src="https://lh3.googleusercontent.com/d/1kuOxG3r_5Q01NZoV3sxV4LKH0nRLEdar"
+        alt="Martín Merlini — Fundador STANNUM"
+        onerror="this.style.display='none'; document.getElementById('spkFallback').style.display='flex';"
+      />
+      <div class="spk-photo-overlay"></div>
+      <!-- Fallback si Drive no responde -->
+      <div class="spk-photo-fallback" id="spkFallback" style="display:none;">
+        <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#32CBBF" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
+          <path fill="#32CBBF" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- TEXTO BIO -->
+    <div class="spk-text-col">
+      <div class="spk-label gsap-hide">Speaker principal</div>
+      <div class="spk-name gsap-hide">MARTÍN<br>MERLINI</div>
+      <div class="spk-role gsap-hide">Fundador · Director · Entrenador — STANNUM</div>
+      <p class="spk-bio gsap-hide">
+        Fundador y Director de STANNUM Alto Rendimiento Digital. Especialista en la profesionalización de líderes con IA. Viene entrenando a empresas y equipos comerciales a lo largo de Argentina y LATAM.
+      </p>
+      <div class="spk-creds gsap-hide">
+        <div class="spk-cred">TechMBA — Gestión de negocios y tecnología</div>
+        <div class="spk-cred">ADEN BS + The George Washington University — IA y Big Data</div>
+        <div class="spk-cred">STANNUM — Fundador de metodología TRENNO iA</div>
+        <div class="spk-cred">+1.000 líderes entrenados en Argentina y LATAM</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 3D ISOTIPO STANNUM (Three.js) ═══ -->
+<section class="iso3d-sec" id="identity">
+  <div class="iso3d-bg"></div>
+  <div class="iso3d-layout">
+    <div class="iso3d-text gsap-hide">
+      <div class="sec-label">Identidad corporativa</div>
+      <h2 class="iso3d-heading">STANNUM<br>ALTO<br>RENDIMIENTO</h2>
+      <p class="iso3d-body">Metodología deportiva, gamificación e inteligencia artificial unificadas en una sola identidad de transformación.</p>
+      <div class="iso3d-tags">
+        <span class="iso3d-tag">Metodología deportiva</span>
+        <span class="iso3d-tag">Gamificación</span>
+        <span class="iso3d-tag">IA aplicada</span>
+        <span class="iso3d-tag">LATAM</span>
+      </div>
+    </div>
+    <!-- Three.js renders here -->
+    <div id="iso3d-wrap"></div>
+  </div>
+</section>
+
+<!-- ═══ AGENDA — RADIAL ORBITAL TIMELINE ═══ -->
+<section class="agenda" id="agenda">
+  <div class="agenda-bg"></div>
+  <div class="agenda-inner">
+    <div class="sec-label gsap-hide">Martes 17 de junio · Hilton Tucumán</div>
+    <h2 class="sec-heading gsap-hide">AGENDA<br>DEL EVENTO</h2>
+    <div class="radial-tl">
+      <!-- JS builds this -->
+      <div class="radial-orbit-wrap" id="radialOrbit"></div>
+      <div class="radial-detail" id="radialDetail">
+        <div class="rdp-time">17:30 hs</div>
+        <div class="rdp-title">Acreditación y networking</div>
+        <div class="rdp-desc">Registro de asistentes, bienvenida y primera ronda de networking entre líderes del NOA.</div>
+      </div>
+      <div class="radial-hint">Clic en cualquier punto · Auto-avanza cada 3s</div>
+      <!-- Agenda mobile list (visible ≤768px) -->
+      <div class="agenda-list-mobile">
+        <div class="alm-item active">
+          <div class="alm-time">17:30</div>
+          <div class="alm-body">
+            <div class="alm-title">Acreditación y networking</div>
+            <div class="alm-desc">Registro de asistentes, bienvenida y primera ronda de networking entre líderes del NOA.</div>
+          </div>
+        </div>
+        <div class="alm-item">
+          <div class="alm-time">18:00</div>
+          <div class="alm-body">
+            <div class="alm-title">Apertura — El nuevo liderazgo</div>
+            <div class="alm-desc">Martín Merlini presenta el escenario: por qué el 74% de los líderes no está listo y cómo cambiarlo.</div>
+          </div>
+        </div>
+        <div class="alm-item">
+          <div class="alm-time">18:30</div>
+          <div class="alm-body">
+            <div class="alm-title">IA aplicada a tu negocio real</div>
+            <div class="alm-desc">Herramientas concretas, casos reales y metodología TRENNO iA. Salís con un plan de implementación.</div>
+          </div>
+        </div>
+        <div class="alm-item">
+          <div class="alm-time">19:30</div>
+          <div class="alm-body">
+            <div class="alm-title">Mesas de trabajo con IA</div>
+            <div class="alm-desc">Formato activo para directivos. Ejercicios aplicados, prompts y automatizaciones en tiempo real.</div>
+          </div>
+        </div>
+        <div class="alm-item">
+          <div class="alm-time">20:30</div>
+          <div class="alm-body">
+            <div class="alm-title">Pitch TRENNO iA</div>
+            <div class="alm-desc">Metodología STANNUM: de Starter a Agentic. Cómo equipos de ventas reales multiplican su rendimiento.</div>
+          </div>
+        </div>
+        <div class="alm-item">
+          <div class="alm-time">21:00</div>
+          <div class="alm-body">
+            <div class="alm-title">Networking premium</div>
+            <div class="alm-desc">Conexión entre los líderes más relevantes del NOA. Oportunidades reales de colaboración y escala.</div>
+          </div>
+        </div>
+        <div class="alm-item">
+          <div class="alm-time">21:15</div>
+          <div class="alm-body">
+            <div class="alm-title">Cierre y siguiente paso</div>
+            <div class="alm-desc">Dinámica de compromiso y próximos pasos concretos. Reserva del acceso a TRENNO iA.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LATAM GLOBE ═══ -->
+<section class="globe-sec" id="latam">
+  <div class="globe-sec-bg"></div>
+  <div class="globe-inner">
+    <div class="globe-text">
+      <div class="sec-label gsap-hide">Presencia LATAM</div>
+      <h2 class="sec-heading gsap-hide" style="margin-bottom:28px">STANNUM<br>EN LATAM</h2>
+      <p class="globe-desc gsap-hide">Líderes y equipos transformados en toda la región. El NOA es el punto de partida del viaje hacia el alto rendimiento con IA.</p>
+      <div class="globe-cities" id="globeCities"></div>
+      <div class="globe-drag-hint" style="margin-top:12px">Arrastrá el globo para explorar</div>
+    </div>
+    <div class="globe-canvas-wrap gsap-hide">
+      <canvas id="globeCanvas" width="400" height="400" style="width:400px;height:400px"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENEFICIOS ═══ -->
+<section class="beneficios" id="beneficios">
+  <div class="benef-inner">
+    <div class="sec-label gsap-hide">Lo que te llevás</div>
+    <h2 class="sec-heading gsap-hide">QUÉ PASA<br>EN ESTE EVENTO</h2>
+    <div class="benef-grid">
+      <div class="benef-card gsap-hide">
+        <div class="benef-num">01</div>
+        <div class="benef-title">Metodología deportiva</div>
+        <div class="benef-desc">El mismo sistema que usan los atletas de alto rendimiento, aplicado a tu liderazgo y equipo comercial.</div>
+      </div>
+      <div class="benef-card gsap-hide">
+        <div class="benef-num">02</div>
+        <div class="benef-title">IA aplicada, no teórica</div>
+        <div class="benef-desc">Herramientas reales que implementás en tu negocio. Nada de demos genéricas — casos de tu industria.</div>
+      </div>
+      <div class="benef-card gsap-hide">
+        <div class="benef-num">03</div>
+        <div class="benef-title">Red de líderes NOA</div>
+        <div class="benef-desc">Conectás con los ejecutivos más relevantes de Tucumán y el NOA en un espacio premium de alto impacto.</div>
+      </div>
+      <div class="benef-card gsap-hide">
+        <div class="benef-num">04</div>
+        <div class="benef-title">Framework de transformación</div>
+        <div class="benef-desc">Salís con un roadmap claro de cómo llevar a tu equipo del estado actual al alto rendimiento con IA.</div>
+      </div>
+      <div class="benef-card gsap-hide">
+        <div class="benef-num">05</div>
+        <div class="benef-title">Cases reales probados</div>
+        <div class="benef-desc">ABB, Cámara de Software ARG y más: ves resultados concretos de organizaciones que ya transformaron con STANNUM.</div>
+      </div>
+      <div class="benef-card gsap-hide">
+        <div class="benef-num">06</div>
+        <div class="benef-title">Acceso a comunidad</div>
+        <div class="benef-desc">Ingresás a la red de líderes LATAM que operan con IA — el ecosistema de alto rendimiento digital.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ REGISTRO / CTA ═══ -->
+<section class="registro" id="registro">
+  <div class="rings" aria-hidden="true">
+    <div class="ring"></div><div class="ring"></div>
+    <div class="ring"></div><div class="ring"></div>
+  </div>
+  <div class="cta-inner">
+    <div class="cta-label gsap-hide">Martes 17 de junio · Hilton Tucumán</div>
+    <h2 class="cta-h gsap-hide">RESERVÁ<br>TU <span class="ghost">LUGAR</span></h2>
+    <p class="cta-sub gsap-hide">Cupos limitados para ejecutivos y líderes del NOA. El precio se informa por WhatsApp.</p>
+    <div class="mbtn-wrap gsap-hide">
+      <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="gbtn">ESCRIBIR POR WHATSAPP</a>
+    </div>
+    <div class="cta-note gsap-hide" style="font-size:13px;color:rgba(255,255,255,.35);letter-spacing:.12em;margin-top:28px">
+      <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank"
+         style="color:rgba(50,203,191,.7);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.1em;border-bottom:1px solid rgba(50,203,191,.25);padding-bottom:2px">
+        +54 9 3814 76-3535
+      </a>
+      <span style="margin:0 10px;opacity:.3">·</span>
+      <span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.5">WhatsApp directo</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CO-PRODUCCIÓN ═══ -->
+<section class="coprod-sec" id="coproduccion">
+  <div class="coprod-sec-bg"></div>
+  <div class="coprod-inner">
+    <div class="coprod-label">Producido en conjunto</div>
+    <h2 class="coprod-heading">UN EVENTO<br>DOS IDENTIDADES</h2>
+    <div class="coprod-row">
+      <div class="coprod-logo-block">
+        <div class="coprod-logo-display">
+          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+            <rect width="160" height="160" rx="18" fill="#0a0a0a"/>
+            <path fill="#32CBBF" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
+            <path fill="#32CBBF" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
+          </svg>
+        </div>
+        <div class="coprod-name">STANNUM</div>
+        <div class="coprod-sub">Alto Rendimiento Argentina</div>
+      </div>
+      <div class="coprod-sep">
+        <div class="coprod-sep-line"></div>
+        <div class="coprod-sep-x">×</div>
+        <div class="coprod-sep-line"></div>
+      </div>
+      <div class="coprod-logo-block">
+        <div class="coprod-logo-display">
+          <img src="agencia-g.svg" alt="Agencia G — Gabriel Lazarte"/>
+        </div>
+        <div class="coprod-name" style="text-transform:none;letter-spacing:.05em">Gabriel Páez Laurent</div>
+        <div class="coprod-sub" style="text-transform:uppercase">Agencia de Eventos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="ft-grid">
+    <div>
+      <p class="ft-desc">Alto Rendimiento Argentina. Fusionamos metodología deportiva, gamificación e IA para transformar equipos comerciales.</p>
+      <div class="ft-mantra">Vendemos transformación de identidad.</div>
+    </div>
+    <div class="ft-col">
+      <h5>Evento</h5>
+      <ul>
+        <li><a href="#speaker">Speaker</a></li>
+        <li><a href="#agenda">Agenda</a></li>
+        <li><a href="#beneficios">Qué llevás</a></li>
+        <li><a href="#registro">Inscripción</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>STANNUM</h5>
+      <ul>
+        <li><a href="https://stannum.com.ar" target="_blank">stannum.com.ar</a></li>
+        <li><a href="#clientes">Clientes</a></li>
+        <li><a href="https://testdedominioia.lovable.app" target="_blank">Test de IA</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Contacto</h5>
+      <ul>
+        <li><a href="https://wa.me/5493814763535" target="_blank">WhatsApp</a></li>
+        <li><a href="mailto:eventos@stannum.com.ar">eventos@stannum.com.ar</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <div class="ft-copy">© 2026 STANNUM — Alto Rendimiento Argentina</div>
+    <div class="ft-tag">IA SUMMIT TUCUMÁN 2026 · 17.06.2026</div>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+
+<script>
+(function(){
+'use strict';
+
+// ── Lenis ────────────────────────────────
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  wheelMultiplier: 0.9,
+});
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(t => lenis.raf(t * 1000));
+gsap.ticker.lagSmoothing(0);
+gsap.registerPlugin(ScrollTrigger);
+
+// ── Cursor ───────────────────────────────
+const cd = document.getElementById('cd');
+const cr = document.getElementById('cr');
+const xDot = gsap.quickTo(cd, 'x', {duration:.08});
+const yDot = gsap.quickTo(cd, 'y', {duration:.08});
+const xRing = gsap.quickTo(cr, 'x', {duration:.2});
+const yRing = gsap.quickTo(cr, 'y', {duration:.2});
+window.addEventListener('mousemove', e => {
+  xDot(e.clientX); yDot(e.clientY);
+  xRing(e.clientX); yRing(e.clientY);
+});
+document.querySelectorAll('a,button,.benef-card,.radial-dot').forEach(el => {
+  el.addEventListener('mouseenter', () => { gsap.to(cr, {width:52,height:52,duration:.2}); gsap.to(cd, {width:0,height:0,duration:.2}); });
+  el.addEventListener('mouseleave', () => { gsap.to(cr, {width:32,height:32,duration:.2}); gsap.to(cd, {width:6,height:6,duration:.2}); });
+});
+
+// ── Nav ──────────────────────────────────
+const mnav = document.getElementById('mnav');
+ScrollTrigger.create({
+  start:'top -60',
+  onEnter:() => mnav.classList.add('scrolled'),
+  onLeaveBack:() => mnav.classList.remove('scrolled'),
+});
+
+// ── Canvas Neurons ───────────────────────
+const canvas = document.getElementById('pc');
+const ctx2d = canvas.getContext('2d');
+let mouse = {x: window.innerWidth/2, y: window.innerHeight/2};
+const CYAN_COL = '50,203,191';
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+class Particle {
+  constructor(){ this.reset(); }
+  reset(){
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random()-.5)*.35;
+    this.vy = (Math.random()-.5)*.35;
+    this.r = Math.random()*1.6+.5;
+    this.alpha = Math.random()*.35+.12;
+    this.life = Math.random()*200+100;
+    this.age = 0;
+  }
+  update(){
+    this.age++;
+    if(this.age > this.life) this.reset();
+    const dx = mouse.x - this.x, dy = mouse.y - this.y;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    if(dist < 180){ const f=(180-dist)/180*.0012; this.vx+=dx*f; this.vy+=dy*f; }
+    this.vx*=.98; this.vy*=.98;
+    this.x+=this.vx; this.y+=this.vy;
+    if(this.x<0) this.x=canvas.width;
+    if(this.x>canvas.width) this.x=0;
+    if(this.y<0) this.y=canvas.height;
+    if(this.y>canvas.height) this.y=0;
+  }
+  draw(){
+    const dx=mouse.x-this.x, dy=mouse.y-this.y;
+    const d=Math.sqrt(dx*dx+dy*dy);
+    ctx2d.beginPath();
+    ctx2d.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx2d.fillStyle = d<200 ? `rgba(${CYAN_COL},${this.alpha*1.8})` : `rgba(255,255,255,${this.alpha})`;
+    ctx2d.fill();
+  }
+}
+const particles = [];
+for(let i=0;i<130;i++) particles.push(new Particle());
+
+function drawConns(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<95){
+        const mx=(particles[i].x+particles[j].x)/2, my=(particles[i].y+particles[j].y)/2;
+        const md=Math.sqrt((mouse.x-mx)**2+(mouse.y-my)**2);
+        ctx2d.beginPath();
+        ctx2d.moveTo(particles[i].x,particles[i].y);
+        ctx2d.lineTo(particles[j].x,particles[j].y);
+        ctx2d.strokeStyle=`rgba(${md<200?CYAN_COL:'255,255,255'},${(1-d/95)*(md<200?.22:.07)})`;
+        ctx2d.lineWidth=.6;
+        ctx2d.stroke();
+      }
+    }
+  }
+}
+setTimeout(() => gsap.to(canvas,{opacity:1,duration:2}), 1000);
+(function animParticles(){
+  requestAnimationFrame(animParticles);
+  ctx2d.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw();});
+  drawConns();
+})();
+
+// ── TextScramble ─────────────────────────
+class TextScramble{
+  constructor(el){ this.el=el; this.chars='!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZ'; this.update=this.update.bind(this); }
+  setText(t){
+    const old=this.el.innerText, len=Math.max(old.length,t.length);
+    return new Promise(r=>{
+      this.resolve=r; this.queue=[];
+      for(let i=0;i<len;i++){
+        const s=Math.floor(Math.random()*14), e=s+Math.floor(Math.random()*14);
+        this.queue.push({from:old[i]||'',to:t[i]||'',start:s,end:e});
+      }
+      cancelAnimationFrame(this.frameReq);
+      this.frame=0; this.update();
+    });
+  }
+  update(){
+    let out='',done=0;
+    for(let i=0;i<this.queue.length;i++){
+      let{from,to,start,end,char}=this.queue[i];
+      if(this.frame>=end){ done++; out+=to; }
+      else if(this.frame>=start){
+        if(!char||Math.random()<.28){ char=this.chars[Math.floor(Math.random()*this.chars.length)]; this.queue[i].char=char; }
+        out+=`<span style="color:rgba(50,203,191,.6)">${char}</span>`;
+      } else { out+=from; }
+    }
+    this.el.innerHTML=out;
+    if(done===this.queue.length){ this.resolve(); }
+    else{ this.frameReq=requestAnimationFrame(this.update); this.frame++; }
+  }
+}
+
+// ── Hero entrance ─────────────────────────
+const htl = gsap.timeline({delay:.2});
+htl.fromTo('#hdatebadge',{opacity:0,y:20},{opacity:1,y:0,duration:.6,ease:'power2.out'})
+   .fromTo('#hkicker',{opacity:0},{opacity:1,duration:.5},'-=.2')
+   .fromTo('#hl1',{y:'110%'},{y:'0%',duration:.7,ease:'power3.out'},'-=.2')
+   .fromTo('#hl2',{y:'110%'},{y:'0%',duration:.7,ease:'power3.out'},'-=.45')
+   .fromTo('#hl3',{y:'110%'},{y:'0%',duration:.7,ease:'power3.out'},'-=.45')
+   .fromTo('#hclaim',{opacity:0,y:16},{opacity:1,y:0,duration:.6},'-=.3')
+   .fromTo('#hmeta',{opacity:0,y:16},{opacity:1,y:0,duration:.5},'-=.2')
+   .fromTo('#hctas',{opacity:0,y:16},{opacity:1,y:0,duration:.5},'-=.2')
+   .fromTo('#hscroll',{opacity:0},{opacity:1,duration:.6},'-=.2');
+
+setTimeout(() => { new TextScramble(document.getElementById('hl2')).setText('SUMMIT'); }, 1400);
+
+// ── GSAP scroll reveals ───────────────────
+gsap.utils.toArray('.gsap-hide').forEach(el => {
+  gsap.to(el,{
+    opacity:1, y:0, duration:.75, ease:'power2.out',
+    scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' }
+  });
+});
+
+ScrollTrigger.create({
+  trigger:'.benef-grid', start:'top 80%',
+  onEnter:() => gsap.fromTo('.benef-card',{opacity:0,y:32,scale:.97},{opacity:1,y:0,scale:1,duration:.55,ease:'power2.out',stagger:.08})
+});
+
+// ── Stat counter ──────────────────────────
+ScrollTrigger.create({
+  trigger:'#snum', start:'top 75%', once:true,
+  onEnter(){
+    const el=document.getElementById('snum'); let n=0;
+    const interval=setInterval(()=>{ n++; el.textContent=n+'%'; if(n>=74) clearInterval(interval); }, 1600/74);
+  }
+});
+
+// ── Magnetic buttons ──────────────────────
+document.querySelectorAll('.mbtn-wrap').forEach(wrap => {
+  const el=wrap.querySelector('a')||wrap;
+  const xTo=gsap.quickTo(el,'x',{duration:.35,ease:'power3.out'});
+  const yTo=gsap.quickTo(el,'y',{duration:.35,ease:'power3.out'});
+  wrap.addEventListener('mousemove', e=>{ const r=wrap.getBoundingClientRect(); xTo((e.clientX-(r.left+r.width/2))*.38); yTo((e.clientY-(r.top+r.height/2))*.38); });
+  wrap.addEventListener('mouseleave', ()=>{ gsap.to(el,{x:0,y:0,duration:.55,ease:'elastic.out(1,.42)'}); });
+});
+
+// ── Martín photo lazy load ─────────────────
+const spkPhoto = document.getElementById('spkPhoto');
+if(spkPhoto){ spkPhoto.addEventListener('load', ()=>spkPhoto.classList.add('loaded')); }
+
+// ═══════════════════════════════════════════
+// THREE.JS 3D ISOTIPO STANNUM
+// ═══════════════════════════════════════════
+function initIsotipo3D(){
+  if(typeof THREE === 'undefined') return;
+  const wrap = document.getElementById('iso3d-wrap');
+  if(!wrap) return;
+
+  const SIZE = 460;
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(SIZE, SIZE);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.18;
+  renderer.setClearColor(0x000000, 0);
+  wrap.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
+  camera.position.z = 285;
+
+  // STANNUM isotipo shape — paths centered at origin (x-80, -(y-80))
+  // Path 1: outer Z body
+  const p1 = [[23,80],[80,80],[12,22],[44,22],[70,0],[-18,-80],[-80,-80],[-8,-12],[-42,-12],[-64,10]];
+  // Path 2: inner highlight diamond
+  const p2 = [[12,22],[44,22],[70,0],[34,-32],[-2,-32],[30,-2],[-10,-2]];
+
+  // Mesh group for combined animation
+  const group = new THREE.Group();
+  scene.add(group);
+
+  // ── Shape 1: outer Z (dark steel + glow overlay)
+  const shape1 = new THREE.Shape();
+  p1.forEach((pt, i) => i === 0 ? shape1.moveTo(pt[0], pt[1]) : shape1.lineTo(pt[0], pt[1]));
+  shape1.closePath();
+
+  const extOpts1 = { depth: 22, bevelEnabled: true, bevelThickness: 1.6, bevelSize: 1.0, bevelSegments: 3 };
+  const geo1 = new THREE.ExtrudeGeometry(shape1, extOpts1);
+
+  const mat1 = new THREE.MeshStandardMaterial({
+    color: 0x0F1418,
+    metalness: 0.82,
+    roughness: 0.34,
+  });
+  const mesh1 = new THREE.Mesh(geo1, mat1);
+  group.add(mesh1);
+
+  // Cyan glow shell (slightly scaled up, transparent)
+  const glowMat1 = new THREE.MeshBasicMaterial({
+    color: 0x32CBBF,
+    transparent: true,
+    opacity: 0.42,
+    depthWrite: false,
+    side: THREE.FrontSide,
+  });
+  const glow1 = new THREE.Mesh(geo1, glowMat1);
+  glow1.scale.setScalar(1.035);
+  glow1.renderOrder = 1;
+  group.add(glow1);
+
+  // ── Shape 2: inner diamond (cyan emissive, pops out)
+  const shape2 = new THREE.Shape();
+  p2.forEach((pt, i) => i === 0 ? shape2.moveTo(pt[0], pt[1]) : shape2.lineTo(pt[0], pt[1]));
+  shape2.closePath();
+
+  const extOpts2 = { depth: 28, bevelEnabled: true, bevelThickness: 1.2, bevelSize: 0.8, bevelSegments: 2 };
+  const geo2 = new THREE.ExtrudeGeometry(shape2, extOpts2);
+
+  const mat2 = new THREE.MeshStandardMaterial({
+    color: 0x1a6b65,
+    metalness: 0.55,
+    roughness: 0.22,
+    emissive: new THREE.Color(0x32CBBF),
+    emissiveIntensity: 0.45,
+  });
+  const mesh2 = new THREE.Mesh(geo2, mat2);
+  group.add(mesh2);
+
+  // ── Lights (boosted intensities as requested)
+  scene.add(new THREE.AmbientLight(0xffffff, 0.28));
+
+  const keyLight = new THREE.DirectionalLight(0xffffff, 3.5);
+  keyLight.position.set(1, 2, 3);
+  scene.add(keyLight);
+
+  const cyanKey = new THREE.PointLight(0x32CBBF, 18, 300);
+  cyanKey.position.set(80, 0, 100);
+  scene.add(cyanKey);
+
+  const cyanRim = new THREE.PointLight(0x32CBBF, 12, 250);
+  cyanRim.position.set(-80, 60, 80);
+  scene.add(cyanRim);
+
+  const cyanBack = new THREE.PointLight(0x32CBBF, 8, 200);
+  cyanBack.position.set(0, -60, -80);
+  scene.add(cyanBack);
+
+  const warmFill = new THREE.PointLight(0xffffff, 2.2, 300);
+  warmFill.position.set(-40, 80, 120);
+  scene.add(warmFill);
+
+  // ── Mouse parallax
+  let mx3 = 0, my3 = 0;
+  window.addEventListener('mousemove', e => {
+    mx3 = (e.clientX / window.innerWidth - 0.5) * 2;
+    my3 = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  // ── Animation loop
+  let t3d = 0;
+  function animate3d(){
+    requestAnimationFrame(animate3d);
+    t3d += 0.009;
+
+    // Auto-rotation
+    group.rotation.y = t3d;
+
+    // Floating
+    const fy = Math.sin(t3d * 0.75) * 5;
+    group.position.y = fy;
+
+    // Subtle tilt on X with time
+    group.rotation.x = Math.sin(t3d * 0.4) * 0.12;
+
+    // Camera mouse parallax
+    camera.position.x += (mx3 * 28 - camera.position.x) * 0.04;
+    camera.position.y += (-my3 * 18 - camera.position.y) * 0.04;
+    camera.lookAt(0, 0, 0);
+
+    // Orbiting key light
+    cyanKey.position.x = Math.cos(t3d * 0.7) * 130;
+    cyanKey.position.z = Math.sin(t3d * 0.7) * 130 + 60;
+    cyanRim.position.x = Math.cos(t3d * 0.5 + Math.PI) * 100;
+    cyanRim.position.y = Math.sin(t3d * 0.3) * 60;
+
+    renderer.render(scene, camera);
+  }
+  animate3d();
+}
+
+// initIsotipo3D() desactivado — reemplazado por módulo Three.js en #iso3d-wrap
+
+// ═══════════════════════════════════════════
+// RADIAL ORBITAL TIMELINE
+// ═══════════════════════════════════════════
+function initRadialTimeline(){
+  const orbitEl = document.getElementById('radialOrbit');
+  const detailEl = document.getElementById('radialDetail');
+  if(!orbitEl || !detailEl) return;
+
+  const ITEMS = [
+    { time:'17:30', short:'Check-in', title:'Acreditación y networking',
+      desc:'Registro de asistentes, bienvenida y primera ronda de networking entre líderes del NOA.' },
+    { time:'18:00', short:'Apertura', title:'Apertura — El nuevo liderazgo',
+      desc:'Martín Merlini presenta el escenario: por qué el 74% de los líderes no está listo y cómo cambiarlo.' },
+    { time:'18:30', short:'Sesión IA', title:'IA aplicada a tu negocio real',
+      desc:'Herramientas concretas, casos reales y metodología TRENNO iA. Salís con un plan de implementación.' },
+    { time:'19:30', short:'Workshop', title:'Mesas de trabajo con IA',
+      desc:'Formato activo para directivos. Ejercicios aplicados, prompts y automatizaciones en tiempo real.' },
+    { time:'20:30', short:'Pitch', title:'Pitch TRENNO iA — Ciclos de transformación',
+      desc:'Metodología STANNUM: de Starter a Agentic. Cómo equipos de ventas reales multiplican su rendimiento.' },
+    { time:'21:00', short:'Networking', title:'Networking premium',
+      desc:'Conexión entre los líderes más relevantes del NOA. Oportunidades reales de colaboración y escala.' },
+    { time:'21:15', short:'Cierre', title:'Cierre y siguiente paso',
+      desc:'Dinámica de compromiso y próximos pasos concretos. Reserva del acceso a TRENNO iA.' },
+  ];
+
+  const N = ITEMS.length;
+  const WRAP = 520;    // px container size
+  const CX = WRAP / 2; // 260
+  const CY = WRAP / 2; // 260
+  const RADIUS = 188;
+
+  // Rotation state: angle such that item[activeIdx] sits at 12 o'clock (angle = -PI/2)
+  // angle_i = -PI/2 + (i/N)*2*PI + rotOffset
+  // item i at 12 o'clock when: -PI/2 + (i/N)*2*PI + rotOffset = -PI/2  → rotOffset = -(i/N)*2*PI
+  let rotOffset = 0;         // current (animated)
+  let targetRot = 0;         // target
+  let activeIdx = 0;
+  let autoTimer = null;
+  let isPlaying = true;
+
+  function getAngle(i){
+    return -Math.PI/2 + (i/N)*Math.PI*2 + rotOffset;
+  }
+  function getPos(i){
+    const a = getAngle(i);
+    return {
+      x: CX + Math.cos(a) * RADIUS,
+      y: CY + Math.sin(a) * RADIUS,
+    };
+  }
+
+  // Build DOM
+  orbitEl.style.cssText = `position:relative;width:${WRAP}px;height:${WRAP}px;`;
+
+  // SVG for connection lines
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('class','radial-svg');
+  svg.setAttribute('viewBox',`0 0 ${WRAP} ${WRAP}`);
+  orbitEl.appendChild(svg);
+
+  // Decorative rings
+  [75, 140, RADIUS, RADIUS + 30].forEach(r => {
+    const ring = document.createElement('div');
+    ring.className = 'radial-ring';
+    ring.style.width = ring.style.height = r*2 + 'px';
+    orbitEl.appendChild(ring);
+  });
+
+  // Center display
+  const centerEl = document.createElement('div');
+  centerEl.className = 'radial-center';
+  centerEl.innerHTML = `<div class="rc-time" id="rcTime">${ITEMS[0].time}</div><div class="rc-short" id="rcShort">${ITEMS[0].short}</div>`;
+  orbitEl.appendChild(centerEl);
+
+  // Node elements
+  const nodeEls = ITEMS.map((item, i) => {
+    const node = document.createElement('div');
+    node.className = 'radial-node' + (i === 0 ? ' active' : '');
+    node.style.position = 'absolute';
+
+    const dot = document.createElement('div');
+    dot.className = 'radial-dot';
+    dot.title = item.time + ' — ' + item.title;
+
+    const lbl = document.createElement('div');
+    lbl.className = 'radial-lbl';
+    lbl.textContent = item.time;
+
+    node.appendChild(dot);
+    node.appendChild(lbl);
+    orbitEl.appendChild(node);
+
+    dot.addEventListener('click', () => selectItem(i, true));
+    return node;
+  });
+
+  function selectItem(idx, stopAuto){
+    activeIdx = idx;
+    targetRot = -(idx / N) * Math.PI * 2;
+    // Normalize to shortest path
+    while(targetRot - rotOffset > Math.PI) targetRot -= Math.PI * 2;
+    while(rotOffset - targetRot > Math.PI) targetRot += Math.PI * 2;
+
+    updateDetail(idx);
+    updateCenter(idx);
+
+    if(stopAuto){
+      isPlaying = false;
+      clearTimeout(autoTimer);
+      // Resume auto after 6s
+      autoTimer = setTimeout(() => { isPlaying = true; scheduleNext(); }, 6000);
+    }
+  }
+
+  function scheduleNext(){
+    clearTimeout(autoTimer);
+    if(!isPlaying) return;
+    autoTimer = setTimeout(() => {
+      const next = (activeIdx + 1) % N;
+      selectItem(next, false);
+      scheduleNext();
+    }, 3000);
+  }
+
+  function updateDetail(idx){
+    const item = ITEMS[idx];
+    detailEl.innerHTML = `
+      <div class="rdp-time">${item.time} hs</div>
+      <div class="rdp-title">${item.title}</div>
+      <div class="rdp-desc">${item.desc}</div>`;
+  }
+
+  function updateCenter(idx){
+    const t = document.getElementById('rcTime');
+    const s = document.getElementById('rcShort');
+    if(t) t.textContent = ITEMS[idx].time;
+    if(s) s.textContent = ITEMS[idx].short;
+  }
+
+  function renderNodes(){
+    nodeEls.forEach((node, i) => {
+      const {x, y} = getPos(i);
+      node.style.left = x + 'px';
+      node.style.top = y + 'px';
+
+      const isActive = i === activeIdx;
+      node.classList.toggle('active', isActive);
+
+      // Label position: flip side based on x
+      const lbl = node.querySelector('.radial-lbl');
+      if(x > CX){
+        lbl.style.left = '22px';
+        lbl.style.right = 'auto';
+        lbl.style.textAlign = 'left';
+      } else {
+        lbl.style.right = '22px';
+        lbl.style.left = 'auto';
+        lbl.style.textAlign = 'right';
+      }
+    });
+  }
+
+  function renderLines(){
+    svg.innerHTML = '';
+    ITEMS.forEach((_, i) => {
+      const {x, y} = getPos(i);
+      const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+      line.setAttribute('x1', CX);
+      line.setAttribute('y1', CY);
+      line.setAttribute('x2', x);
+      line.setAttribute('y2', y);
+      const isActive = i === activeIdx;
+      line.setAttribute('stroke', isActive ? 'rgba(50,203,191,0.35)' : 'rgba(255,255,255,0.04)');
+      line.setAttribute('stroke-width', isActive ? '1.5' : '0.5');
+      svg.appendChild(line);
+    });
+  }
+
+  // Animation loop for smooth rotation
+  function animRadial(){
+    requestAnimationFrame(animRadial);
+    // Ease toward target
+    rotOffset += (targetRot - rotOffset) * 0.07;
+    renderNodes();
+    renderLines();
+  }
+  animRadial();
+
+  // Initial render + start auto
+  renderNodes();
+  renderLines();
+  updateDetail(0);
+  scheduleNext();
+}
+initRadialTimeline();
+
+// ═══════════════════════════════════════════
+// INTERACTIVE GLOBE (LATAM)
+// ═══════════════════════════════════════════
+function initGlobe(){
+  const canvas3 = document.getElementById('globeCanvas');
+  const citiesEl = document.getElementById('globeCities');
+  if(!canvas3) return;
+
+  const SIZE = 400;
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  canvas3.width = SIZE * DPR;
+  canvas3.height = SIZE * DPR;
+  canvas3.style.width = SIZE + 'px';
+  canvas3.style.height = SIZE + 'px';
+  const gc = canvas3.getContext('2d');
+  gc.scale(DPR, DPR);
+
+  const CX = SIZE / 2;
+  const CY = SIZE / 2;
+  const R = 168;
+
+  const CITIES = [
+    { name:'Buenos Aires', lat:-34.6, lng:-58.4, tag:'ARG' },
+    { name:'Tucumán',      lat:-26.8, lng:-65.2, tag:'NOA' },
+    { name:'Asunción',     lat:-25.3, lng:-57.6, tag:'PAR' },
+    { name:'CDMX',         lat:19.4,  lng:-99.1, tag:'MEX' },
+    { name:'Bogotá',       lat:4.7,   lng:-74.1, tag:'COL' },
+    { name:'Lima',         lat:-12.0, lng:-77.0, tag:'PER' },
+    { name:'Santiago',     lat:-33.5, lng:-70.7, tag:'CHI' },
+    { name:'São Paulo',    lat:-23.5, lng:-46.6, tag:'BRA' },
+    { name:'Montevideo',   lat:-34.9, lng:-56.2, tag:'URU' },
+  ];
+
+  // Build city chips
+  if(citiesEl){
+    CITIES.forEach(c => {
+      const chip = document.createElement('div');
+      chip.className = 'city-chip' + (c.tag==='NOA'?' active':'');
+      chip.textContent = c.tag + ' · ' + c.name;
+      citiesEl.appendChild(chip);
+    });
+  }
+
+  // Connections between cities (index pairs)
+  const CONNS = [
+    [0,1],[0,7],[0,8],[0,6],[1,2],[2,7],[3,4],[4,5],[5,6],[4,0],[7,4]
+  ];
+
+  // Travelers
+  const travelers = CONNS.map(([a,b]) => ({
+    a, b, t: Math.random(), speed: 0.004 + Math.random() * 0.005
+  }));
+
+  // Fibonacci sphere dots
+  const NDOTS = 700;
+  const dots = [];
+  const PHI = Math.PI * (3 - Math.sqrt(5));
+  for(let i=0; i<NDOTS; i++){
+    const y = 1 - (i/(NDOTS-1)) * 2;
+    const r = Math.sqrt(1 - y*y);
+    const theta = PHI * i;
+    dots.push({ x: r*Math.cos(theta), y, z: r*Math.sin(theta) });
+  }
+
+  // Rotation state
+  let rotX = 0.28;   // tilt (show southern hemisphere)
+  let rotY = -1.1;   // initial yaw (Americas visible)
+  let autoRotY = 0;
+  let dragging = false;
+  let lastMX = 0, lastMY = 0;
+
+  // Drag
+  canvas3.addEventListener('mousedown', e => { dragging=true; lastMX=e.clientX; lastMY=e.clientY; });
+  window.addEventListener('mousemove', e => {
+    if(!dragging) return;
+    rotY += (e.clientX - lastMX) * 0.007;
+    rotX += (e.clientY - lastMY) * 0.007;
+    rotX = Math.max(-Math.PI/2, Math.min(Math.PI/2, rotX));
+    lastMX=e.clientX; lastMY=e.clientY;
+  });
+  window.addEventListener('mouseup', () => { dragging=false; });
+
+  function latLng2Vec(lat, lng){
+    const phi = (90 - lat) * Math.PI / 180;
+    const theta = (lng + 180) * Math.PI / 180;
+    return {
+      x: -Math.sin(phi) * Math.cos(theta),
+      y: Math.cos(phi),
+      z: Math.sin(phi) * Math.sin(theta),
+    };
+  }
+
+  function rotateVec(v, rx, ry){
+    // Y rotation
+    let x = v.x * Math.cos(ry) + v.z * Math.sin(ry);
+    let z = -v.x * Math.sin(ry) + v.z * Math.cos(ry);
+    let y = v.y;
+    // X rotation
+    const y2 = y * Math.cos(rx) - z * Math.sin(rx);
+    const z2 = y * Math.sin(rx) + z * Math.cos(rx);
+    return { x, y: y2, z: z2 };
+  }
+
+  function project(v){
+    return { x: CX + v.x * R, y: CY - v.y * R, z: v.z };
+  }
+
+  function lerp2(a, b, t){
+    return { x: a.x + (b.x-a.x)*t, y: a.y + (b.y-a.y)*t };
+  }
+
+  let globePulse = 0;
+
+  function drawGlobe(){
+    gc.clearRect(0, 0, SIZE, SIZE);
+    const ry = rotY + autoRotY;
+
+    // Atmosphere glow
+    const atmo = gc.createRadialGradient(CX-30, CY-30, R*0.6, CX, CY, R*1.18);
+    atmo.addColorStop(0, 'rgba(50,203,191,0.025)');
+    atmo.addColorStop(1, 'rgba(50,203,191,0)');
+    gc.beginPath();
+    gc.arc(CX, CY, R*1.18, 0, Math.PI*2);
+    gc.fillStyle = atmo;
+    gc.fill();
+
+    // Globe circle
+    gc.beginPath();
+    gc.arc(CX, CY, R, 0, Math.PI*2);
+    gc.strokeStyle = 'rgba(50,203,191,0.08)';
+    gc.lineWidth = 1;
+    gc.stroke();
+
+    // Fibonacci dots
+    dots.forEach(dot => {
+      const rv = rotateVec(dot, rotX, ry);
+      if(rv.z <= -0.05) return;
+      const p = project(rv);
+      const op = Math.max(0, rv.z * 0.45 + 0.02);
+      gc.beginPath();
+      gc.arc(p.x, p.y, 0.85, 0, Math.PI*2);
+      gc.fillStyle = `rgba(255,255,255,${op})`;
+      gc.fill();
+    });
+
+    // Connection arcs + travelers
+    travelers.forEach(tr => {
+      tr.t = (tr.t + tr.speed) % 1;
+      const ca = CITIES[tr.a], cb = CITIES[tr.b];
+      const va = rotateVec(latLng2Vec(ca.lat, ca.lng), rotX, ry);
+      const vb = rotateVec(latLng2Vec(cb.lat, cb.lng), rotX, ry);
+      if(va.z < 0 || vb.z < 0) return;
+      const pa = project(va), pb = project(vb);
+
+      // Arc
+      const mid = { x:(pa.x+pb.x)/2, y:(pa.y+pb.y)/2 - 28 };
+      gc.beginPath();
+      gc.moveTo(pa.x, pa.y);
+      gc.quadraticCurveTo(mid.x, mid.y, pb.x, pb.y);
+      gc.strokeStyle = 'rgba(50,203,191,0.14)';
+      gc.lineWidth = 0.9;
+      gc.stroke();
+
+      // Traveling dot
+      const tp = lerp2(pa, pb, tr.t);
+      gc.beginPath();
+      gc.arc(tp.x, tp.y, 2.5, 0, Math.PI*2);
+      gc.fillStyle = 'rgba(50,203,191,0.95)';
+      gc.fill();
+    });
+
+    // City dots
+    globePulse += 0.04;
+    CITIES.forEach((city, ci) => {
+      const v = rotateVec(latLng2Vec(city.lat, city.lng), rotX, ry);
+      if(v.z < 0) return;
+      const p = project(v);
+
+      // Pulse ring
+      const pScale = 0.6 + 0.4 * Math.sin(globePulse + ci * 0.9);
+      gc.beginPath();
+      gc.arc(p.x, p.y, 9 * pScale, 0, Math.PI*2);
+      gc.strokeStyle = `rgba(50,203,191,${0.25 * pScale})`;
+      gc.lineWidth = 1;
+      gc.stroke();
+
+      // City dot
+      gc.beginPath();
+      gc.arc(p.x, p.y, city.tag==='NOA' ? 5 : 3.5, 0, Math.PI*2);
+      gc.fillStyle = city.tag==='NOA' ? '#5DEDE0' : '#32CBBF';
+      gc.fill();
+
+      // Label
+      gc.font = `${city.tag==='NOA'?'bold ':''} 9px JetBrains Mono, monospace`;
+      gc.fillStyle = city.tag==='NOA' ? 'rgba(93,237,224,0.95)' : 'rgba(50,203,191,0.8)';
+      gc.fillText(city.tag, p.x + 9, p.y + 4);
+    });
+
+    if(!dragging) autoRotY += 0.003;
+    requestAnimationFrame(drawGlobe);
+  }
+  drawGlobe();
+}
+initGlobe();
+
+// ── Mobile hamburger nav ─────────────
+const hbgBtn = document.getElementById('hbgBtn');
+const mnavOverlay = document.getElementById('mnavOverlay');
+if(hbgBtn && mnavOverlay){
+  function closeMobileMenu(){
+    hbgBtn.classList.remove('open');
+    mnavOverlay.classList.remove('open');
+    hbgBtn.setAttribute('aria-expanded','false');
+    mnavOverlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  hbgBtn.addEventListener('click',()=>{
+    const isOpen = hbgBtn.classList.toggle('open');
+    mnavOverlay.classList.toggle('open', isOpen);
+    hbgBtn.setAttribute('aria-expanded', String(isOpen));
+    mnavOverlay.setAttribute('aria-hidden', String(!isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  mnavOverlay.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeMobileMenu);
+  });
+  // close on ESC
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeMobileMenu(); });
+}
+
+// ── Agenda mobile accordion ──────────
+document.querySelectorAll('.alm-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.alm-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+
+// ── Hide floating WA when hero CTA is visible ──
+const heroCTAs = document.getElementById('hctas');
+const waFloatEl = document.getElementById('waFloat');
+if(heroCTAs && waFloatEl && 'IntersectionObserver' in window){
+  new IntersectionObserver(([entry]) => {
+    waFloatEl.classList.toggle('hidden', entry.isIntersecting);
+  }, {threshold:0.4}).observe(heroCTAs);
+}
+
+})();
+</script>
+
+<!-- ═══ STANNUM 3D ENGRAVED LOGO — Co-production ═══ -->
+<script type="module">
+import * as THREE from 'three';
+
+const host = document.getElementById('iso3d-wrap');
+if (!host) { /* noop */ } else {
+let W = host.clientWidth, H = host.clientHeight;
+
+const scene = new THREE.Scene();
+const bg = document.createElement('canvas');
+bg.width = bg.height = 256;
+const bx = bg.getContext('2d');
+const grad = bx.createRadialGradient(128,110,0,128,128,180);
+grad.addColorStop(0,'#0E1417'); grad.addColorStop(0.55,'#070A0C'); grad.addColorStop(1,'#040506');
+bx.fillStyle = grad; bx.fillRect(0,0,256,256);
+scene.background = new THREE.CanvasTexture(bg);
+
+const camera = new THREE.PerspectiveCamera(34, W/H, 0.1, 1000);
+camera.position.set(0,0,14);
+
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(W,H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.18;
+host.appendChild(renderer.domElement);
+
+const PATH1 = [[103,0],[160,0],[92,58],[124,58],[150,80],[62,160],[0,160],[72,92],[38,92],[16,70]];
+const PATH2 = [[92,58],[124,58],[150,80],[114,112],[78,112],[110,82],[70,82]];
+function mkShape(pts){
+  const s = new THREE.Shape();
+  s.moveTo(pts[0][0],-pts[0][1]);
+  for(let i=1;i<pts.length;i++) s.lineTo(pts[i][0],-pts[i][1]);
+  return s;
+}
+
+/* Plaque */
+const ps = new THREE.Shape();
+const pw=200,ph=200,pr=22;
+ps.moveTo(-pw/2+pr,-ph/2); ps.lineTo(pw/2-pr,-ph/2);
+ps.quadraticCurveTo(pw/2,-ph/2,pw/2,-ph/2+pr); ps.lineTo(pw/2,ph/2-pr);
+ps.quadraticCurveTo(pw/2,ph/2,pw/2-pr,ph/2); ps.lineTo(-pw/2+pr,ph/2);
+ps.quadraticCurveTo(-pw/2,ph/2,-pw/2,ph/2-pr); ps.lineTo(-pw/2,-ph/2+pr);
+ps.quadraticCurveTo(-pw/2,-ph/2,-pw/2+pr,-ph/2);
+const pg = new THREE.ExtrudeGeometry(ps,{depth:14,bevelEnabled:true,bevelThickness:2,bevelSize:2,bevelSegments:6,curveSegments:6});
+pg.translate(0,0,-22);
+const plaque = new THREE.Mesh(pg, new THREE.MeshStandardMaterial({color:0x0A0D10,metalness:0.65,roughness:0.55}));
+
+/* S metal */
+const extS = {depth:22,bevelEnabled:true,bevelThickness:1.6,bevelSize:1.6,bevelSegments:5,curveSegments:6};
+const mat = new THREE.MeshStandardMaterial({color:0x1A2024,metalness:0.95,roughness:0.22,envMapIntensity:1.5});
+const g1=new THREE.ExtrudeGeometry(mkShape(PATH1),extS);
+const g2=new THREE.ExtrudeGeometry(mkShape(PATH2),extS);
+[g1,g2].forEach(g=>g.translate(-80,80,-extS.depth/2));
+const sMain=new THREE.Mesh(g1,mat), sBridge=new THREE.Mesh(g2,mat);
+
+/* Neon rim */
+const nMat=new THREE.MeshBasicMaterial({color:0x32CBBF,transparent:true,opacity:0.95});
+const g1n=new THREE.ExtrudeGeometry(mkShape(PATH1),{depth:4,bevelEnabled:false});
+const g2n=new THREE.ExtrudeGeometry(mkShape(PATH2),{depth:4,bevelEnabled:false});
+[g1n,g2n].forEach(g=>g.translate(-80,80,-extS.depth/2-2.5));
+const sN1=new THREE.Mesh(g1n,nMat); sN1.scale.set(1.08,1.08,1);
+const sN2=new THREE.Mesh(g2n,nMat); sN2.scale.set(1.08,1.08,1);
+
+/* Halo */
+const hMat=new THREE.MeshBasicMaterial({color:0x4EE0D2,transparent:true,opacity:0.35});
+const g1h=new THREE.ExtrudeGeometry(mkShape(PATH1),{depth:2,bevelEnabled:false});
+const g2h=new THREE.ExtrudeGeometry(mkShape(PATH2),{depth:2,bevelEnabled:false});
+[g1h,g2h].forEach(g=>g.translate(-80,80,-extS.depth/2-4));
+const sH1=new THREE.Mesh(g1h,hMat); sH1.scale.set(1.18,1.18,1);
+const sH2=new THREE.Mesh(g2h,hMat); sH2.scale.set(1.18,1.18,1);
+
+const group = new THREE.Group();
+group.add(plaque,sH1,sH2,sN1,sN2,sMain,sBridge);
+group.scale.setScalar(0.034);
+scene.add(group);
+
+/* Lights */
+scene.add(new THREE.AmbientLight(0xffffff,0.42));
+const key=new THREE.DirectionalLight(0xfff4e6,4.2); key.position.set(-4,5,6); scene.add(key);
+const fill=new THREE.DirectionalLight(0xcfd9e6,1.1); fill.position.set(4,-3,4); scene.add(fill);
+const rim=new THREE.DirectionalLight(0xffffff,1.6); rim.position.set(0,2,-6); scene.add(rim);
+const cK=new THREE.PointLight(0x32CBBF,22,24,1.4); cK.position.set(4,-3,4); scene.add(cK);
+const cR=new THREE.PointLight(0x4EE0D2,16,18,1.5); cR.position.set(-3,3,-3); scene.add(cR);
+const cB=new THREE.PointLight(0x32CBBF,12,16,1.8); cB.position.set(0,0,-5); scene.add(cB);
+const cT=new THREE.PointLight(0x4EE0D2,8,14,2.0); cT.position.set(0,6,2); scene.add(cT);
+
+let tX=0,tY=0;
+host.addEventListener('mousemove',e=>{
+  const r=host.getBoundingClientRect();
+  tX=((e.clientY-r.top)/r.height-0.5)*0.35;
+  tY=((e.clientX-r.left)/r.width-0.5)*0.85;
+});
+host.addEventListener('mouseleave',()=>{tX=0;tY=0;});
+
+let t=0;
+(function tick(){
+  t+=0.012;
+  group.position.y=Math.sin(t*0.85)*0.22;
+  const aY=Math.sin(t*0.4)*0.18, aX=Math.cos(t*0.5)*0.06;
+  group.rotation.y+=((tY+aY)-group.rotation.y)*0.06;
+  group.rotation.x+=((tX+aX)-group.rotation.x)*0.06;
+  cK.position.x=Math.cos(t*0.45)*5; cK.position.y=Math.sin(t*0.65)*3-1;
+  cR.position.x=Math.sin(t*0.35)*-4; cR.position.y=Math.cos(t*0.5)*2.5+1;
+  renderer.render(scene,camera);
+  requestAnimationFrame(tick);
+})();
+
+new ResizeObserver(()=>{
+  W=host.clientWidth; H=host.clientHeight;
+  renderer.setSize(W,H);
+  camera.aspect=W/H; camera.updateProjectionMatrix();
+}).observe(host);
+}
+</script>
+
+</body>
+</html>
