@@ -129,17 +129,20 @@ nav.scrolled{
 .nlogo-img{height:26px;width:auto;display:block}
 .nlinks{display:flex;gap:36px;list-style:none}
 .nlinks a{
-  font-family:var(--fm);font-size:10px;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--muted);text-decoration:none;
+  font-family:var(--fm);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(255,255,255,.72);text-decoration:none;
   transition:color .2s;
 }
 .nlinks a:hover{color:var(--white)}
 .ncta{
-  font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--cyan);border:1px solid rgba(50,203,191,.35);
-  padding:10px 22px;text-decoration:none;transition:all .2s;border-radius:2px;
+  font-family:var(--fm);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:#000;background:var(--cyan);border:1px solid var(--cyan);
+  padding:12px 26px;text-decoration:none;border-radius:2px;
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:opacity .35s,transform .35s,box-shadow .25s;
 }
-.ncta:hover{background:rgba(50,203,191,.08);border-color:var(--cyan)}
+nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
+.ncta:hover{box-shadow:0 0 26px rgba(50,203,191,.55);transform:translateY(-1px)}
 
 /* ─── HERO ────────────────────────────── */
 .hero{
@@ -224,9 +227,9 @@ nav.scrolled{
 }
 .hero-ctas{display:flex;gap:16px;align-items:center}
 .btn-primary{
-  font-family:var(--fd);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  font-family:var(--fd);font-size:14px;letter-spacing:.16em;text-transform:uppercase;
   background:var(--cyan);color:var(--black);
-  padding:16px 36px;text-decoration:none;
+  padding:20px 52px;text-decoration:none;
   border-radius:0;border:none;cursor:auto;
   display:inline-block;
   animation:ctaPulse 3.5s ease-in-out infinite;
@@ -248,12 +251,16 @@ nav.scrolled{
 .hero-spline{
   position:absolute;right:0;top:0;
   width:58%;height:100%;z-index:2;
-  pointer-events:auto;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
 }
-.hero-spline spline-viewer{
-  width:100%;height:100%;
-  --spline-viewer-cursor-color:transparent;
-}
+.hero-iso{position:relative;width:58%;max-width:480px;
+  animation:isoFloat 6s ease-in-out infinite;}
+.hero-iso svg{width:100%;height:auto;display:block;
+  filter:drop-shadow(0 0 55px rgba(50,203,191,.42)) drop-shadow(0 18px 44px rgba(0,0,0,.55));}
+.hero-iso::after{content:'';position:absolute;inset:-22% -14%;z-index:-1;
+  background:radial-gradient(ellipse at 50% 50%,rgba(50,203,191,.16),transparent 62%);}
+@keyframes isoFloat{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-20px) rotate(1.2deg)}}
 .hero-scroll{
   position:absolute;right:52px;bottom:44px;z-index:3;
   display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -339,8 +346,8 @@ nav.scrolled{
 .wb-body{font-family:var(--fb);font-size:16px;font-weight:300;color:rgba(0,0,0,.5);max-width:400px;line-height:1.8;margin-bottom:auto;padding-bottom:60px}
 .wb-overflow{
   font-family:var(--fd);
-  font-size:clamp(80px,20vw,240px);
-  line-height:.8;letter-spacing:-.04em;text-transform:uppercase;
+  font-size:clamp(44px,10vw,128px);
+  line-height:.85;letter-spacing:-.03em;text-transform:uppercase;
   color:var(--black);white-space:nowrap;margin-left:-4px;
 }
 
@@ -698,9 +705,9 @@ nav.scrolled{
 .mbtn-wrap{display:inline-block;padding:24px;margin:-24px}
 .gbtn{
   display:inline-block;position:relative;
-  font-family:var(--fd);font-size:11px;letter-spacing:.22em;
+  font-family:var(--fd);font-size:14px;letter-spacing:.18em;
   text-transform:uppercase;text-decoration:none;
-  color:var(--white);padding:20px 60px;
+  color:var(--white);padding:24px 68px;
   background:transparent;cursor:auto;overflow:hidden;
 }
 .gbtn::before{
@@ -1015,7 +1022,7 @@ footer{
   #iso3d-wrap{width:240px;height:240px}
 
   /* White break overflow text — avoid horizontal scroll */
-  .wb-overflow{font-size:clamp(56px,18vw,160px)}
+  .wb-overflow{font-size:clamp(30px,12vw,60px)}
 }
 
 /* ════════════════════════════════════════
@@ -1267,7 +1274,19 @@ footer{
     </div>
   </div>
   <div class="hero-spline">
-    <spline-viewer url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" loading-anim-type="spinner-small-dark"></spline-viewer>
+    <div class="hero-iso">
+      <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="boltG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5DEDE0"/>
+            <stop offset="0.55" stop-color="#32CBBF"/>
+            <stop offset="1" stop-color="#1c8c83"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#boltG)" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
+        <path fill="url(#boltG)" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
+      </svg>
+    </div>
   </div>
   <div class="hero-scroll" id="hscroll">
     <div class="sline"></div>
@@ -1363,7 +1382,7 @@ footer{
   <div class="iso3d-bg"></div>
   <div class="iso3d-layout">
     <div class="iso3d-text gsap-hide">
-      <div class="sec-label">Identidad corporativa</div>
+      <div class="sec-label">Quiénes somos</div>
       <h2 class="iso3d-heading">STANNUM<br>ALTO<br>RENDIMIENTO</h2>
       <p class="iso3d-body">Metodología deportiva, gamificación e inteligencia artificial unificadas en una sola identidad de transformación.</p>
       <div class="iso3d-tags">
@@ -1578,19 +1597,6 @@ footer{
 <script>
 /* Fallback de robustez: si GSAP no cargó (CDN caído/bloqueado), mostrar el contenido igual */
 window.addEventListener('load',function(){ if(!window.gsap){ document.querySelectorAll('.gsap-hide').forEach(function(el){ el.style.opacity='1'; el.style.transform='none'; }); } });
-</script>
-<!-- Carga diferida del robot Spline: solo desktop, tras el primer render -->
-<script>
-(function(){
-  if(!window.matchMedia('(min-width:769px)').matches) return; // celular: sin robot 3D (ahorra ~5MB)
-  function loadSpline(){
-    var s=document.createElement('script'); s.type='module';
-    s.src='https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js';
-    document.head.appendChild(s);
-  }
-  if(document.readyState==='complete') setTimeout(loadSpline,300);
-  else window.addEventListener('load', function(){ setTimeout(loadSpline,300); });
-})();
 </script>
 
 <script>
