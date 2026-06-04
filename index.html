@@ -32,7 +32,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}.lenis.lenis-stopped{overflow:hidden}.lenis.lenis-smooth iframe{pointer-events:none}</style>
 <script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+{ "imports": { "three": "/lib/three.module.js" } }
 </script>
 <!-- spline-viewer: carga diferida por JS (solo desktop, tras el primer render) para no bloquear -->
 
@@ -2353,11 +2353,14 @@ if(heroCTAs && waFloatEl && 'IntersectionObserver' in window){
 <!-- ═══ STANNUM 3D ENGRAVED LOGO — Co-production ═══ -->
 <script type="module">
 // Isotipo 3D (hero + sección "Quiénes somos") — solo desktop (evita three.module ~1.3MB en celular)
-const _isoHosts = [document.getElementById('hero-iso3d'), document.getElementById('iso3d-wrap')].filter(Boolean);
-if (_isoHosts.length && window.matchMedia('(min-width:769px)').matches) {
-  const THREE = await import('three');
-  _isoHosts.forEach(function(h){ buildIsotipo3D(THREE, h); });
-}
+// Diferido a window.load para no bloquear la interactividad (domReady)
+window.addEventListener('load', async function(){
+  const _isoHosts = [document.getElementById('hero-iso3d'), document.getElementById('iso3d-wrap')].filter(Boolean);
+  if (_isoHosts.length && window.matchMedia('(min-width:769px)').matches) {
+    const THREE = await import('three');
+    _isoHosts.forEach(function(h){ buildIsotipo3D(THREE, h); });
+  }
+});
 function buildIsotipo3D(THREE, host){
 let W = host.clientWidth, H = host.clientHeight;
 
