@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#050606;--cyan:#32CBBF;--gray:#A0A0A0;--fd:'Archivo Black',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace}
+html,body{width:1200px;height:630px;overflow:hidden}
+body{background:var(--black);color:#fff;font-family:var(--fb);position:relative}
+.grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(50,203,191,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(50,203,191,.05) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse at 70% 40%,#000 10%,transparent 70%)}
+.glow{position:absolute;width:700px;height:700px;right:-160px;top:-120px;border-radius:50%;
+  background:radial-gradient(circle,rgba(50,203,191,.18),transparent 62%)}
+.wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:64px 72px}
+.top{display:flex;align-items:center;gap:16px}
+.iso{width:46px;height:46px;border-radius:10px;background:#000;border:1px solid rgba(50,203,191,.3);display:flex;align-items:center;justify-content:center}
+.iso svg{width:28px;height:28px}
+.brand{font-family:var(--fd);font-size:24px;letter-spacing:.14em}
+.brand span{color:var(--cyan)}
+.badge{margin-left:auto;font-family:var(--fm);font-size:14px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase;border:1px solid rgba(50,203,191,.35);padding:9px 20px;border-radius:3px}
+.mid{margin-top:6px}
+.kicker{font-family:var(--fm);font-size:15px;letter-spacing:.32em;color:var(--gray);text-transform:uppercase;margin-bottom:18px}
+h1{font-family:var(--fd);font-size:104px;line-height:.9;letter-spacing:-.02em;text-transform:uppercase}
+h1 .c{color:var(--cyan);text-shadow:0 0 50px rgba(50,203,191,.45)}
+.claim{margin-top:22px;font-size:24px;font-weight:400;color:rgba(255,255,255,.62);max-width:760px;line-height:1.4}
+.bottom{display:flex;align-items:center;gap:0;font-family:var(--fm);font-size:17px;letter-spacing:.06em;color:#fff}
+.bottom .it{display:flex;align-items:center;gap:12px}
+.bottom .it strong{font-weight:600}
+.bottom .dot{width:5px;height:5px;background:var(--cyan);border-radius:50%;margin:0 22px}
+.bottom .accent{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="glow"></div>
+<div class="wrap">
+  <div class="top">
+    <div class="iso">
+      <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#32CBBF" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
+        <path fill="#32CBBF" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
+      </svg>
+    </div>
+    <div class="brand">STAN<span>NUM</span></div>
+    <div class="badge">Alto Rendimiento · IA</div>
+  </div>
+
+  <div class="mid">
+    <div class="kicker">17 de junio 2026 · Hilton Tucumán</div>
+    <h1>IA SUMMIT<br><span class="c">TUCUMÁN</span></h1>
+    <div class="claim">El evento de alto rendimiento donde los líderes del NOA transforman cómo trabajan, lideran y escalan con inteligencia artificial.</div>
+  </div>
+
+  <div class="bottom">
+    <div class="it"><span class="accent">◆</span> <strong>HILTON TUCUMÁN</strong></div>
+    <span class="dot"></span>
+    <div class="it">ACREDITACIÓN 17:30 HS</div>
+    <span class="dot"></span>
+    <div class="it">CUPOS LIMITADOS</div>
+  </div>
+</div>
+</body>
+</html>

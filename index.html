@@ -4,6 +4,25 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>IA SUMMIT TUCUMÁN 2026 — STANNUM · 17 de junio</title>
+<meta name="description" content="IA Summit Tucumán 2026 · 17 de junio, Hilton Tucumán. El evento de alto rendimiento donde los líderes del NOA transforman cómo trabajan, lideran y escalan con inteligencia artificial."/>
+<link rel="canonical" href="https://stannum-ht-final.vercel.app/"/>
+<meta name="theme-color" content="#050606"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'><rect width='160' height='160' rx='28' fill='%23050606'/><path fill='%2332CBBF' d='M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z'/><path fill='%2332CBBF' d='M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z'/></svg>"/>
+<!-- Open Graph (WhatsApp / Facebook / LinkedIn) -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="STANNUM"/>
+<meta property="og:locale" content="es_AR"/>
+<meta property="og:url" content="https://stannum-ht-final.vercel.app/"/>
+<meta property="og:title" content="IA Summit Tucumán 2026 · 17 de junio · Hilton Tucumán"/>
+<meta property="og:description" content="El evento de alto rendimiento donde los líderes del NOA transforman cómo trabajan, lideran y escalan con inteligencia artificial."/>
+<meta property="og:image" content="https://stannum-ht-final.vercel.app/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="IA Summit Tucumán 2026 · 17 de junio · Hilton Tucumán"/>
+<meta name="twitter:description" content="El evento de alto rendimiento para líderes del NOA que quieren transformar con IA."/>
+<meta name="twitter:image" content="https://stannum-ht-final.vercel.app/og-image.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="preconnect" href="https://unpkg.com" crossorigin/>
@@ -11,7 +30,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
 <link rel="preconnect" href="https://prod.spline.design" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://unpkg.com/lenis@1.1.14/dist/lenis.css">
+<style>html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}.lenis.lenis-stopped{overflow:hidden}.lenis.lenis-smooth iframe{pointer-events:none}</style>
 <script type="importmap">
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
@@ -945,11 +964,14 @@ footer{
   /* Sections */
   .stat-inner{padding:0 20px}
   .white-break{padding:48px 20px 0}
+  .wb-heading{font-size:32px;line-height:1.02}
   .iso3d-sec{padding:48px 20px}
   .agenda{padding:48px 20px}
   .globe-sec{padding:48px 20px}
   .beneficios{padding:48px 20px}
   .trust{padding:40px 20px}
+  .ft-col li a{display:inline-block;padding:10px 0}
+  .ft-col li{margin:0}
   .coprod-sec{padding:48px 20px 64px}
   footer{padding:40px 20px 28px}
 
@@ -1530,7 +1552,7 @@ footer{
       <h5>STANNUM</h5>
       <ul>
         <li><a href="https://stannum.com.ar" target="_blank">stannum.com.ar</a></li>
-        <li><a href="#clientes">Clientes</a></li>
+        <li><a href="#latam">Alcance</a></li>
         <li><a href="https://testdedominioia.lovable.app" target="_blank">Test de IA</a></li>
       </ul>
     </div>
@@ -1549,10 +1571,13 @@ footer{
 </footer>
 
 <!-- ═══ SCRIPTS ═══ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js" defer></script>
+<script src="lib/gsap.min.js"></script>
+<script src="lib/ScrollTrigger.min.js"></script>
+<script src="lib/lenis.min.js"></script>
+<script>
+/* Fallback de robustez: si GSAP no cargó (CDN caído/bloqueado), mostrar el contenido igual */
+window.addEventListener('load',function(){ if(!window.gsap){ document.querySelectorAll('.gsap-hide').forEach(function(el){ el.style.opacity='1'; el.style.transform='none'; }); } });
+</script>
 <!-- Carga diferida del robot Spline: solo desktop, tras el primer render -->
 <script>
 (function(){
