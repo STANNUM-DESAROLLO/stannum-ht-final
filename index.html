@@ -254,13 +254,9 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
 }
-.hero-iso{position:relative;width:58%;max-width:480px;
-  animation:isoFloat 6s ease-in-out infinite;}
-.hero-iso svg{width:100%;height:auto;display:block;
-  filter:drop-shadow(0 0 55px rgba(50,203,191,.42)) drop-shadow(0 18px 44px rgba(0,0,0,.55));}
-.hero-iso::after{content:'';position:absolute;inset:-22% -14%;z-index:-1;
+.hero-iso{position:relative;width:min(480px,44vw);height:min(480px,44vw);}
+.hero-iso::after{content:'';position:absolute;inset:-16%;z-index:-1;
   background:radial-gradient(ellipse at 50% 50%,rgba(50,203,191,.16),transparent 62%);}
-@keyframes isoFloat{0%,100%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-20px) rotate(1.2deg)}}
 .hero-scroll{
   position:absolute;right:52px;bottom:44px;z-index:3;
   display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -1274,19 +1270,7 @@ footer{
     </div>
   </div>
   <div class="hero-spline">
-    <div class="hero-iso">
-      <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="boltG" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#5DEDE0"/>
-            <stop offset="0.55" stop-color="#32CBBF"/>
-            <stop offset="1" stop-color="#1c8c83"/>
-          </linearGradient>
-        </defs>
-        <path fill="url(#boltG)" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
-        <path fill="url(#boltG)" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
-      </svg>
-    </div>
+    <div id="hero-iso3d" class="hero-iso"></div>
   </div>
   <div class="hero-scroll" id="hscroll">
     <div class="sline"></div>
@@ -2368,10 +2352,13 @@ if(heroCTAs && waFloatEl && 'IntersectionObserver' in window){
 
 <!-- ═══ STANNUM 3D ENGRAVED LOGO — Co-production ═══ -->
 <script type="module">
-const host = document.getElementById('iso3d-wrap');
-// Isotipo 3D solo en desktop (evita bajar three.module ~1.3MB en celular)
-if (host && window.matchMedia('(min-width:769px)').matches) {
-const THREE = await import('three');
+// Isotipo 3D (hero + sección "Quiénes somos") — solo desktop (evita three.module ~1.3MB en celular)
+const _isoHosts = [document.getElementById('hero-iso3d'), document.getElementById('iso3d-wrap')].filter(Boolean);
+if (_isoHosts.length && window.matchMedia('(min-width:769px)').matches) {
+  const THREE = await import('three');
+  _isoHosts.forEach(function(h){ buildIsotipo3D(THREE, h); });
+}
+function buildIsotipo3D(THREE, host){
 let W = host.clientWidth, H = host.clientHeight;
 
 const scene = new THREE.Scene();
