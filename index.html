@@ -69,10 +69,11 @@ body{
   line-height:1.6;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
-  cursor:none;
+  cursor:auto;
 }
 
 /* ─── CURSOR ─────────────────────────── */
+#cd,#cr{display:none !important}
 #cd{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;
   transform:translate(-50%,-50%);width:6px;height:6px;background:var(--cyan);
   transition:width .12s,height .12s,opacity .2s}
@@ -226,7 +227,7 @@ nav.scrolled{
   font-family:var(--fd);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
   background:var(--cyan);color:var(--black);
   padding:16px 36px;text-decoration:none;
-  border-radius:0;border:none;cursor:none;
+  border-radius:0;border:none;cursor:auto;
   display:inline-block;
   animation:ctaPulse 3.5s ease-in-out infinite;
   transition:transform .2s;
@@ -700,7 +701,7 @@ nav.scrolled{
   font-family:var(--fd);font-size:11px;letter-spacing:.22em;
   text-transform:uppercase;text-decoration:none;
   color:var(--white);padding:20px 60px;
-  background:transparent;cursor:none;overflow:hidden;
+  background:transparent;cursor:auto;overflow:hidden;
 }
 .gbtn::before{
   content:'';position:absolute;inset:0;
@@ -1571,9 +1572,9 @@ footer{
 </footer>
 
 <!-- ═══ SCRIPTS ═══ -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="lib/gsap.min.js"></script>
+<script src="lib/ScrollTrigger.min.js"></script>
+<script src="lib/lenis.min.js"></script>
 <script>
 /* Fallback de robustez: si GSAP no cargó (CDN caído/bloqueado), mostrar el contenido igual */
 window.addEventListener('load',function(){ if(!window.gsap){ document.querySelectorAll('.gsap-hide').forEach(function(el){ el.style.opacity='1'; el.style.transform='none'; }); } });
@@ -1608,21 +1609,7 @@ gsap.ticker.add(t => lenis.raf(t * 1000));
 gsap.ticker.lagSmoothing(0);
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Cursor ───────────────────────────────
-const cd = document.getElementById('cd');
-const cr = document.getElementById('cr');
-const xDot = gsap.quickTo(cd, 'x', {duration:.08});
-const yDot = gsap.quickTo(cd, 'y', {duration:.08});
-const xRing = gsap.quickTo(cr, 'x', {duration:.2});
-const yRing = gsap.quickTo(cr, 'y', {duration:.2});
-window.addEventListener('mousemove', e => {
-  xDot(e.clientX); yDot(e.clientY);
-  xRing(e.clientX); yRing(e.clientY);
-});
-document.querySelectorAll('a,button,.benef-card,.radial-dot').forEach(el => {
-  el.addEventListener('mouseenter', () => { gsap.to(cr, {width:52,height:52,duration:.2}); gsap.to(cd, {width:0,height:0,duration:.2}); });
-  el.addEventListener('mouseleave', () => { gsap.to(cr, {width:32,height:32,duration:.2}); gsap.to(cd, {width:6,height:6,duration:.2}); });
-});
+// ── Cursor nativo (se quitó el cursor custom que laggeaba la navegación) ──
 
 // ── Nav ──────────────────────────────────
 const mnav = document.getElementById('mnav');
