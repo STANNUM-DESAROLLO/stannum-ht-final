@@ -2126,13 +2126,9 @@ function initGlobe(){
   const CITIES = [
     { name:'Buenos Aires', lat:-34.6, lng:-58.4, tag:'ARG' },
     { name:'Tucumán',      lat:-26.8, lng:-65.2, tag:'NOA' },
+    { name:'Chubut',       lat:-43.3, lng:-65.1, tag:'ARG' },
     { name:'Asunción',     lat:-25.3, lng:-57.6, tag:'PAR' },
-    { name:'CDMX',         lat:19.4,  lng:-99.1, tag:'MEX' },
-    { name:'Bogotá',       lat:4.7,   lng:-74.1, tag:'COL' },
-    { name:'Lima',         lat:-12.0, lng:-77.0, tag:'PER' },
     { name:'Santiago',     lat:-33.5, lng:-70.7, tag:'CHI' },
-    { name:'São Paulo',    lat:-23.5, lng:-46.6, tag:'BRA' },
-    { name:'Montevideo',   lat:-34.9, lng:-56.2, tag:'URU' },
   ];
 
   // Build city chips
@@ -2147,7 +2143,7 @@ function initGlobe(){
 
   // Connections between cities (index pairs)
   const CONNS = [
-    [0,1],[0,7],[0,8],[0,6],[1,2],[2,7],[3,4],[4,5],[5,6],[4,0],[7,4]
+    [0,1],[0,2],[0,3],[0,4],[1,3],[1,4]
   ];
 
   // Travelers
