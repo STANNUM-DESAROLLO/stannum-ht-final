@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dashboard · Test de Dominio IA — STANNUM</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#050606;--panel:#0b0d0d;--cyan:#32CBBF;--white:#fff;--gray:#A0A0A0;--line:rgba(50,203,191,.14);
+  --fd:'Archivo Black',sans-serif;--fb:'Inter',sans-serif;--fm:'JetBrains Mono',monospace}
+body{background:var(--black);color:var(--white);font-family:var(--fb);min-height:100vh;padding:28px}
+.wrap{max-width:1200px;margin:0 auto}
+.head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px}
+.brand{font-family:var(--fd);font-size:20px;letter-spacing:2px}.brand span{color:var(--cyan)}
+.sub{font-family:var(--fm);font-size:11px;letter-spacing:2px;color:var(--gray);text-transform:uppercase;margin-top:4px}
+.btn{font-family:var(--fm);font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:1px solid var(--cyan);color:var(--cyan);background:transparent;padding:10px 22px;border-radius:999px;transition:all .2s}
+.btn:hover{background:var(--cyan);color:#000}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.kpi{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:20px}
+.kpi .n{font-family:var(--fd);font-size:34px;color:var(--cyan);line-height:1}
+.kpi .l{font-family:var(--fm);font-size:10px;letter-spacing:1.5px;color:var(--gray);text-transform:uppercase;margin-top:8px}
+.panel{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:22px;margin-bottom:24px}
+.panel h3{font-family:var(--fm);font-size:11px;letter-spacing:2px;color:var(--gray);text-transform:uppercase;margin-bottom:18px}
+.bar-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.bar-row .lab{width:120px;font-size:13px;color:#d6d6d6;flex-shrink:0}
+.bar-row .track{flex:1;height:24px;background:rgba(255,255,255,.05);border-radius:6px;overflow:hidden}
+.bar-row .fill{height:100%;background:linear-gradient(90deg,#2bb8ac,var(--cyan));border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:11px;color:#001;font-weight:700;min-width:28px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+th{font-family:var(--fm);font-size:10px;letter-spacing:1px;color:var(--gray);text-transform:uppercase;position:sticky;top:0;background:var(--panel)}
+td{color:#d6d6d6}
+.tag{font-family:var(--fm);font-size:10px;padding:3px 9px;border-radius:99px;border:1px solid var(--line);color:var(--cyan)}
+.tbl-wrap{overflow:auto;max-height:600px;border:1px solid var(--line);border-radius:14px}
+a.wa{color:var(--cyan);text-decoration:none}
+.empty{text-align:center;color:var(--gray);padding:60px;font-family:var(--fm);font-size:13px}
+input.tok{background:#000;border:1px solid var(--line);color:#fff;padding:10px 14px;border-radius:8px;font-family:var(--fm);font-size:13px}
+.muted{color:var(--gray);font-size:12px;font-family:var(--fm)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <div class="brand">STAN<span>NUM</span> · Dashboard</div>
+      <div class="sub">Test de Dominio IA · IA Summit Tucumán 2026</div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <input class="tok" id="tok" placeholder="token" value="stannum2026"/>
+      <button class="btn" id="reload">Actualizar</button>
+    </div>
+  </div>
+
+  <div class="cards" id="kpis"></div>
+
+  <div class="panel">
+    <h3>Distribución por nivel</h3>
+    <div id="levels"></div>
+  </div>
+
+  <div class="panel" style="padding:0;overflow:hidden">
+    <div style="padding:22px 22px 12px"><h3 style="margin:0">Leads (<span id="count">0</span>)</h3></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Fecha</th><th>Nombre</th><th>Empresa</th><th>Rol</th><th>Email</th><th>WhatsApp</th><th>Score</th><th>Nivel</th><th>Solución</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="empty" style="display:none">Sin respuestas todavía. Cuando alguien complete el test, aparece acá.</div>
+  </div>
+  <div class="muted" id="status" style="text-align:center;margin-top:14px"></div>
+</div>
+
+<script>
+// Pegá acá la MISMA URL del Web App de Apps Script (igual que en test.html).
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxo9pGaOokO9tkRHD2boprMLITEaOiG6XTcEPIDODWFqnLcefyBYPPIA51mM6Oxtt5n6w/exec";
+
+const LEVELS = ["Principiante","Intermedio","Avanzado","Experto"];
+const $ = s => document.querySelector(s);
+
+async function load(){
+  const status = $('#status');
+  if(!APPS_SCRIPT_URL){ status.textContent = "⚠️ Falta configurar APPS_SCRIPT_URL en dashboard.html"; return; }
+  status.textContent = "Cargando…";
+  try{
+    const url = APPS_SCRIPT_URL + (APPS_SCRIPT_URL.includes('?')?'&':'?') + "token=" + encodeURIComponent($('#tok').value.trim());
+    const res = await fetch(url);
+    const j = await res.json();
+    if(j.status!=="ok"){ status.textContent = "Error: " + (j.message||"no autorizado"); return; }
+    render(j.data||[]);
+    status.textContent = "Actualizado · " + new Date().toLocaleString('es-AR');
+  }catch(e){ status.textContent = "Error de conexión: " + e.message; }
+}
+
+function render(data){
+  // KPIs
+  const total = data.length;
+  const avg = total ? Math.round(data.reduce((a,b)=>a+(+b.score||0),0)/total) : 0;
+  const conPhone = data.filter(d=>d.whatsapp).length;
+  const counts = {}; LEVELS.forEach(l=>counts[l]=0);
+  data.forEach(d=>{ if(counts[d.nivel]!=null) counts[d.nivel]++; });
+  const top = Object.entries(counts).sort((a,b)=>b[1]-a[1])[0];
+
+  $('#kpis').innerHTML = [
+    ['Total leads', total],
+    ['Score promedio', avg+'/100'],
+    ['Con WhatsApp', conPhone],
+    ['Nivel top', total?(top[0]):'—']
+  ].map(k=>`<div class="kpi"><div class="n">${k[1]}</div><div class="l">${k[0]}</div></div>`).join('');
+
+  // niveles
+  const max = Math.max(1, ...LEVELS.map(l=>counts[l]));
+  $('#levels').innerHTML = LEVELS.map(l=>{
+    const c = counts[l]||0; const pct = Math.round((c/max)*100);
+    return `<div class="bar-row"><div class="lab">${l}</div><div class="track"><div class="fill" style="width:${Math.max(pct,c?8:0)}%">${c||''}</div></div></div>`;
+  }).join('');
+
+  // tabla
+  $('#count').textContent = total;
+  $('#empty').style.display = total ? 'none' : 'block';
+  $('#rows').innerHTML = data.slice().reverse().map(d=>{
+    const f = d.fecha ? new Date(d.fecha).toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '';
+    const wa = d.whatsapp ? `<a class="wa" href="https://wa.me/${String(d.whatsapp).replace(/[^0-9]/g,'')}" target="_blank">${d.whatsapp}</a>` : '—';
+    return `<tr><td>${f}</td><td><b style="color:#fff">${esc(d.nombre)}</b></td><td>${esc(d.empresa)}</td><td>${esc(d.rol)}</td>
+      <td>${esc(d.email)}</td><td>${wa}</td><td style="color:#32CBBF;font-weight:700">${d.score}</td>
+      <td><span class="tag">${esc(d.nivel)}</span></td><td>${esc(d.solucion)}</td></tr>`;
+  }).join('');
+}
+function esc(s){ return String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+$('#reload').onclick = load;
+load();
+</script>
+</body>
+</html>

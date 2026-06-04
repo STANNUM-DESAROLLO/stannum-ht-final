@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Test de Dominio IA · IA Summit Tucumán 2026 — STANNUM</title>
+<meta name="theme-color" content="#050606"/>
+<meta name="description" content="Diagnóstico ejecutivo del nivel real de adopción de IA en tu rol y tu equipo. 17 preguntas, 5 minutos, resultado inmediato. Camino al IA Summit Tucumán 2026."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#050606; --panel:#0b0d0d; --cyan:#32CBBF; --white:#fff; --gray:#A0A0A0;
+  --line:rgba(50,203,191,.14); --line-soft:rgba(255,255,255,.08);
+  --fd:'Archivo Black',sans-serif; --fb:'Inter',sans-serif; --fm:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:var(--fb);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(50,203,191,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(50,203,191,.035) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 80%)}
+/* TOPBAR */
+.top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 28px;background:rgba(5,6,6,.7);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}
+.iso{width:30px;height:30px;border-radius:7px;background:#000;border:1px solid rgba(50,203,191,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.iso svg{width:18px;height:18px}
+.brand-tx{font-family:var(--fd);font-size:15px;letter-spacing:.14em}
+.brand-tx span{color:var(--cyan)}
+.top-eyebrow{font-family:var(--fm);font-size:10px;letter-spacing:.22em;color:var(--gray);text-transform:uppercase}
+.score-badge{font-family:var(--fm);font-size:11px;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.score-badge b{font-family:var(--fd);color:var(--cyan);font-size:16px}
+/* PROGRESS */
+.progress{position:fixed;top:63px;left:0;right:0;z-index:49;height:2px;background:rgba(255,255,255,.05)}
+.progress-bar{height:100%;width:0;background:var(--cyan);transition:width .5s cubic-bezier(.22,1,.36,1);box-shadow:0 0 12px rgba(50,203,191,.6)}
+/* STAGE */
+.stage{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:120px 28px 80px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{font-family:var(--fm);font-size:12px;letter-spacing:.24em;color:var(--cyan);text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.eyebrow::before{content:'';width:32px;height:1px;background:var(--cyan)}
+.q-index{margin-left:auto;color:var(--gray)}
+.q-title{font-family:var(--fd);font-size:clamp(30px,5.2vw,56px);line-height:1.04;margin-bottom:36px;letter-spacing:-.01em}
+.q-title .hl{color:var(--cyan)}
+/* INPUT TEXT */
+.field input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);
+  color:#fff;font-family:var(--fb);font-size:clamp(20px,3vw,30px);font-weight:500;padding:14px 2px;outline:none;transition:border-color .25s}
+.field input::placeholder{color:rgba(160,160,160,.5)}
+.field input:focus{border-color:var(--cyan)}
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:12px}
+.chip{font-family:var(--fb);font-size:15px;font-weight:500;color:#cfcfcf;padding:13px 22px;border:1px solid var(--line);border-radius:999px;
+  background:rgba(50,203,191,.02);cursor:pointer;transition:all .2s;user-select:none}
+.chip:hover{border-color:rgba(50,203,191,.45);color:#fff}
+.chip.sel{background:var(--cyan);color:#000;border-color:var(--cyan);font-weight:600}
+/* CARDS */
+.cards{display:grid;gap:12px}
+.card{text-align:left;border:1px solid var(--line);background:rgba(50,203,191,.025);border-radius:14px;padding:20px 22px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan);transform:scaleY(0);transform-origin:top;transition:transform .3s}
+.card:hover{border-color:rgba(50,203,191,.45);background:rgba(50,203,191,.05)}
+.card:hover::before{transform:scaleY(1)}
+.card.sel{border-color:var(--cyan);background:rgba(50,203,191,.1)}
+.card.sel::before{transform:scaleY(1)}
+.card-l{font-family:var(--fb);font-size:17px;font-weight:600;color:#fff;margin-bottom:3px}
+.card-s{font-size:13.5px;color:var(--gray)}
+/* NAV ROW */
+.nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:44px;gap:16px}
+.back{font-family:var(--fm);font-size:12px;letter-spacing:.16em;color:var(--gray);text-transform:uppercase;cursor:pointer;background:none;border:none;transition:color .2s}
+.back:hover{color:#fff}
+.btn{font-family:var(--fm);font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:1px solid var(--cyan);
+  color:var(--cyan);background:transparent;padding:14px 34px;border-radius:999px;transition:all .25s}
+.btn:hover:not(:disabled){background:var(--cyan);color:#000;box-shadow:0 0 28px rgba(50,203,191,.35)}
+.btn:disabled{opacity:.35;cursor:not-allowed;border-color:var(--line);color:var(--gray)}
+.btn-skip{margin-right:14px;border:none;color:var(--gray);background:none;font-family:var(--fm);font-size:12px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+.btn-skip:hover{color:#fff}
+.nav-actions{display:flex;align-items:center}
+/* SPLASH */
+.splash{text-align:center;align-items:center}
+.splash .tag{display:inline-flex;align-items:center;gap:10px;font-family:var(--fm);font-size:11px;letter-spacing:.24em;color:var(--cyan);text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:8px 18px;margin:0 auto 28px}
+.splash h1{font-family:var(--fd);font-size:clamp(40px,9vw,92px);line-height:.94;letter-spacing:-.02em;margin-bottom:24px}
+.splash h1 .hl{color:var(--cyan)}
+.splash p{max-width:620px;margin:0 auto 40px;font-size:clamp(15px,2vw,18px);color:var(--gray);line-height:1.7}
+.splash .meta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:34px;font-family:var(--fm);font-size:11px;letter-spacing:.14em;color:var(--gray);text-transform:uppercase}
+.splash .meta span{border:1px solid var(--line-soft);border-radius:999px;padding:8px 16px}
+.btn-big{font-family:var(--fm);font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;
+  background:var(--cyan);color:#000;padding:18px 50px;border-radius:999px;transition:all .25s}
+.btn-big:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(50,203,191,.4)}
+/* CALC */
+.calc{text-align:center;align-items:center}
+.calc .ring{width:120px;height:120px;border:2px solid rgba(50,203,191,.15);border-top-color:var(--cyan);border-radius:50%;margin:0 auto 30px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.calc h2{font-family:var(--fd);font-size:28px;margin-bottom:10px}
+.calc p{color:var(--gray);font-family:var(--fm);font-size:13px;letter-spacing:.1em}
+/* RESULT */
+.result{padding-top:110px}
+.res-head{text-align:center;margin-bottom:48px}
+.res-head .eyebrow{justify-content:center}
+.res-head .eyebrow::before{display:none}
+.gauge-wrap{display:flex;flex-direction:column;align-items:center;margin:10px 0 30px}
+.gauge{position:relative;width:300px;max-width:80vw}
+.gauge .num{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);text-align:center}
+.gauge .num b{font-family:var(--fd);font-size:54px;color:var(--cyan);line-height:1}
+.gauge .num small{display:block;font-family:var(--fm);font-size:11px;letter-spacing:.2em;color:var(--gray);margin-top:2px}
+.level-name{font-family:var(--fd);font-size:clamp(34px,7vw,64px);text-align:center;line-height:1;margin-bottom:8px}
+.level-name .hl{color:var(--cyan)}
+.level-tag{text-align:center;font-family:var(--fm);font-size:12px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;margin-bottom:30px}
+.res-card{border:1px solid var(--line);background:rgba(50,203,191,.03);border-radius:18px;padding:30px 32px;margin-bottom:18px}
+.res-card .k{font-family:var(--fm);font-size:11px;letter-spacing:.2em;color:var(--gray);text-transform:uppercase;margin-bottom:12px}
+.res-desc{font-size:16px;line-height:1.7;color:#d6d6d6}
+.sol-name{font-family:var(--fd);font-size:24px;color:var(--cyan);margin-bottom:8px}
+.sol-d{font-size:15px;line-height:1.65;color:var(--gray)}
+.cta-final{text-align:center;margin-top:34px;padding:38px 28px;border:1px solid var(--line);border-radius:18px;
+  background:radial-gradient(ellipse at center,rgba(50,203,191,.08),transparent 70%)}
+.cta-final h3{font-family:var(--fd);font-size:clamp(24px,4vw,38px);line-height:1.05;margin-bottom:14px}
+.cta-final h3 .hl{color:var(--cyan)}
+.cta-final p{color:var(--gray);font-size:15px;line-height:1.6;max-width:520px;margin:0 auto 26px}
+.wa-btn{display:inline-flex;align-items:center;gap:12px;background:var(--cyan);color:#000;font-family:var(--fm);font-weight:600;font-size:15px;
+  letter-spacing:.06em;padding:18px 40px;border-radius:999px;transition:all .25s}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(50,203,191,.4)}
+.email-note{margin-top:22px;font-size:13px;color:var(--gray);font-family:var(--fm);letter-spacing:.04em}
+.email-note b{color:#fff}
+.bars{display:grid;gap:14px;margin-top:6px}
+.bar-row{display:grid;grid-template-columns:1fr;gap:6px}
+.bar-row .bl{display:flex;justify-content:space-between;font-size:13px;color:#cfcfcf}
+.bar-row .bl span:last-child{font-family:var(--fm);color:var(--cyan)}
+.bar-track{height:7px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#2bb8ac,var(--cyan));border-radius:99px;width:0;transition:width 1s cubic-bezier(.22,1,.36,1)}
+.hidden{display:none!important}
+.fade{animation:fade .45s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(max-width:560px){
+  .top{padding:14px 18px}.stage{padding:104px 18px 64px}
+  .top-eyebrow{display:none}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header class="top">
+  <div class="brand">
+    <a href="index.html" class="iso" aria-label="STANNUM">
+      <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#32CBBF" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
+        <path fill="#32CBBF" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
+      </svg>
+    </a>
+    <div>
+      <div class="brand-tx">STAN<span>NUM</span></div>
+    </div>
+  </div>
+  <div class="top-eyebrow">Diagnóstico Ejecutivo · IA Summit Tucumán 2026</div>
+  <div class="score-badge">Score <b id="scoreLive">0</b></div>
+</header>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+<main id="app"></main>
+
+<script>
+// ====================== CONFIG ======================
+const CONFIG = {
+  // Pegar acá la URL del Web App de Apps Script cuando esté deployado (Fase 2B).
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxo9pGaOokO9tkRHD2boprMLITEaOiG6XTcEPIDODWFqnLcefyBYPPIA51mM6Oxtt5n6w/exec",
+  WHATSAPP: "5493814763535",
+  EVENT: "IA Summit Tucumán 2026"
+};
+
+// ====================== TEST (réplica 1:1 del test de dominio) ======================
+const QUESTIONS = [
+  {id:"name",  type:"text", sec:"Tu perfil", eye:"01 · Perfil", q:"¿Cómo te llamás?", ph:"Nombre y apellido", req:true},
+  {id:"company",type:"text",sec:"Tu perfil", eye:"02 · Perfil", q:"¿En qué empresa trabajás?", ph:"Nombre de la empresa", req:true},
+  {id:"role",  type:"text", sec:"Tu perfil", eye:"03 · Perfil", q:"¿Cuál es tu rol y función central?", ph:"Ej. Director Comercial", req:true},
+  {id:"email", type:"text", sec:"Tu perfil", eye:"04 · Perfil", q:"¿Cuál es tu email?", ph:"nombre@empresa.com", req:true, email:true},
+  {id:"phone", type:"text", sec:"Tu perfil", eye:"05 · Perfil", q:"¿Y tu número de WhatsApp?", ph:"+54 9 11 0000-0000", opt:true},
+
+  {id:"team", type:"chips", single:true, sec:"Tu equipo", eye:"06 · Equipo", q:"¿Cuántas personas conforman tu equipo?",
+    opts:["Solo yo","1 a 5","6 a 20","21 a 100","Más de 100"]},
+  {id:"time", type:"cards", sec:"Tu equipo", eye:"07 · Equipo", q:"¿Cómo distribuís tu tiempo laboral?",
+    opts:[
+      {l:"80% operativo · 20% planificación", s:"Foco principal en ejecución."},
+      {l:"60% operativo · 40% planificación", s:"Mayoría en ejecución con algo de estrategia."},
+      {l:"50% operativo · 50% planificación", s:"Equilibrio entre ejecución y estrategia."},
+      {l:"30% operativo · 70% planificación", s:"Mayoría en dirección y estrategia."},
+      {l:"10% operativo · 90% planificación", s:"Rol principalmente estratégico."}
+    ]},
+
+  {id:"freq", type:"cards", scoreable:true, sec:"Uso de IA", eye:"08 · IA", q:"¿Con qué frecuencia usás herramientas de IA generativa?",
+    opts:[
+      {l:"Nunca", s:"Todavía no empecé.", v:0},
+      {l:"Ocasionalmente", s:"1-2 veces por semana.", v:20},
+      {l:"Regularmente", s:"3-4 veces por semana.", v:50},
+      {l:"A diario", s:"Todos los días, en varias tareas.", v:75},
+      {l:"Todo el tiempo", s:"Es parte central de mi forma de trabajar.", v:100}
+    ]},
+  {id:"plats", type:"chips", multi:true, sec:"Uso de IA", eye:"09 · IA", q:"¿Qué plataformas de IA usás?",
+    opts:["ChatGPT","Claude","Gemini","Copilot","Perplexity","Grok","Midjourney","Otra","Ninguna"]},
+  {id:"pago", type:"chips", single:true, req:true, sec:"Uso de IA", eye:"10 · IA", q:"¿Pagás por alguna herramienta de IA?",
+    opts:["Sí, tengo plan pago","No, solo uso versiones gratuitas"]},
+  {id:"areas", type:"chips", multi:true, sec:"Uso de IA", eye:"11 · IA", q:"¿En qué áreas usás IA?",
+    opts:["Redacción y contenido","Análisis de datos","Automatización de tareas","Desarrollo de estrategias","Atención al cliente","Programación y código","Planificación y organización","Comunicación y emails","Resolución de problemas","Toma de decisiones","Generación de imágenes","Investigación y búsqueda"]},
+  {id:"reaccion", type:"cards", scoreable:true, sec:"Uso de IA", eye:"12 · IA", q:"¿Qué hacés cuando la IA no te da lo que esperabas?",
+    opts:[
+      {l:"La dejo y lo hago yo", s:"Uso la IA como último recurso.", v:0},
+      {l:"Repito la pregunta de otra manera", s:"Sin metodología clara, a prueba y error.", v:25},
+      {l:"Reformulo con más contexto", s:"Sé que el prompt hace la diferencia.", v:65},
+      {l:"Descompongo el problema en partes", s:"Metodología sistemática para iterar.", v:100}
+    ]},
+  {id:"integracion", type:"cards", scoreable:true, sec:"Uso de IA", eye:"13 · IA", q:"¿Integraste la IA en algún proceso de tu equipo o empresa?",
+    opts:[
+      {l:"Solo yo la uso", s:"Adopción individual.", v:0},
+      {l:"Comparto resultados, pero cada uno hace lo suyo", s:"Adopción parcial sin proceso.", v:25},
+      {l:"1-2 procesos del equipo ya usan IA", s:"Integración inicial en marcha.", v:60},
+      {l:"Varios procesos y flujos del equipo la incorporan", s:"Transformación organizacional.", v:100}
+    ]},
+
+  {id:"funciones", type:"chips", multi:true, sec:"Conocimiento", eye:"14 · Conocimiento", q:"¿Qué funciones avanzadas usás en IA generativa?",
+    opts:["Análisis de archivos","Búsqueda web","Generación de imágenes","Generación de código","Agentes propios","Automatización","Deep Research","Memoria persistente","Integración con apps","Instrucciones personalizadas"]},
+  {id:"conceptos", type:"chips", multi:true, sec:"Conocimiento", eye:"15 · Conocimiento", q:"¿Cuáles de estos conceptos te resultan familiares?",
+    opts:["Prompt engineering","Machine Learning","Redes neuronales","LLM (Large Language Model)","Procesamiento de Lenguaje Natural","Agentes de IA","RAG (Retrieval-Augmented Generation)","IA General (AGI)","Tokens y contexto"]},
+  {id:"aprender", type:"chips", multi:true, sec:"Conocimiento", eye:"16 · Conocimiento", q:"¿Qué aspectos de la IA querés mejorar o aprender?",
+    opts:["Creación de prompts efectivos","Automatización de procesos con IA","Integración de IA en mi equipo","Análisis de datos con IA","Estrategias comerciales con IA","Agentes y workflows autónomos","Medición de impacto del uso de IA","Governance y uso ético de IA","Desarrollo de productos con IA"]},
+
+  {id:"nivel", type:"cards", scoreable:true, sec:"Diagnóstico", eye:"17 · Diagnóstico", q:"¿Cuál es tu nivel de dominio en IA generativa?",
+    opts:[
+      {l:"Principiante", s:"Apenas estoy explorando sus funciones.", v:15},
+      {l:"Intermedio", s:"Uso IA regularmente para tareas específicas.", v:45},
+      {l:"Avanzado", s:"Optimizo tareas y diseño prompts personalizados.", v:75},
+      {l:"Experto", s:"Automatizo procesos y optimizo estrategias empresariales.", v:100}
+    ]}
+];
+
+const LEVELS = [
+  {min:0,  max:34,  n:1, name:"Principiante", tag:"Etapa inicial de exploración",
+   desc:"Estás en las primeras etapas del uso de IA generativa. La oportunidad es construir una base práctica con casos de uso reales que generen impacto inmediato en tu operación.",
+   sol:"TRENNO iA Starter", solD:"Programa de alfabetización ejecutiva con casos de uso aplicados, prompts prácticos y rutinas de adopción para líderes y equipos."},
+  {min:35, max:59,  n:2, name:"Intermedio", tag:"Uso regular con potencial de escala",
+   desc:"Usás IA de forma regular para tareas específicas. El siguiente paso es sistematizar ese uso, ampliar herramientas y comenzar a medir el impacto concreto en el negocio.",
+   sol:"TRENNO iA Starter", solD:"Capacitación aplicada por área con metodología de prompts avanzados, automatización básica y métricas de adopción."},
+  {min:60, max:79,  n:3, name:"Avanzado", tag:"Optimización y diseño de sistemas",
+   desc:"Optimizás tareas con IA y diseñás prompts personalizados. El siguiente nivel es integrar IA como sistema operativo del equipo con flujos automatizados y gobierno claro.",
+   sol:"TRENNO iA Enterprise", solD:"Implementación sistémica con SOPs, automatizaciones conectadas, entrenamiento de equipos y tablero de control de impacto."},
+  {min:80, max:100, n:4, name:"Experto", tag:"IA como ventaja estratégica",
+   desc:"Usás IA para automatizar procesos y optimizar estrategias. El foco es el gobierno, la escalabilidad organizacional y el roadmap de IA como ventaja competitiva sostenible.",
+   sol:"TRENNO iA Agentic", solD:"Diseño de agentes y workflows autónomos, gobierno de IA y roadmap estratégico para escalar la organización."}
+];
+
+// ====================== ESTADO ======================
+const answers = {};
+let step = -1; // -1 = splash
+const app = document.getElementById('app');
+const progressBar = document.getElementById('progressBar');
+const scoreLive = document.getElementById('scoreLive');
+
+function liveScore(){
+  const sc = QUESTIONS.filter(q=>q.scoreable);
+  const vals = sc.map(q=>{
+    const a = answers[q.id];
+    if(a==null) return null;
+    const o = q.opts.find(o=>o.l===a);
+    return o ? o.v : null;
+  }).filter(v=>v!=null);
+  if(!vals.length) return 0;
+  return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+}
+function levelFor(score){ return LEVELS.find(l=>score>=l.min && score<=l.max) || LEVELS[0]; }
+
+function setProgress(){
+  const pct = step<0 ? 0 : Math.round(((step)/(QUESTIONS.length))*100);
+  progressBar.style.width = pct+'%';
+  scoreLive.textContent = liveScore();
+}
+
+// ====================== RENDER ======================
+function renderSplash(){
+  app.innerHTML = `
+  <section class="stage splash fade">
+    <div class="tag">● STANNUM · Diagnóstico Ejecutivo</div>
+    <h1>TEST DE DOMINIO<br><span class="hl">DE INTELIGENCIA ARTIFICIAL</span></h1>
+    <p>17 preguntas. 5 minutos. Una lectura ejecutiva del nivel real de adopción de IA en tu rol y tu equipo, calibrada por STANNUM. Tu resultado es el primer paso rumbo al <b style="color:#fff">${CONFIG.EVENT}</b>.</p>
+    <button class="btn-big" id="start">Comenzar diagnóstico</button>
+    <div class="meta"><span>17 preguntas</span><span>~5 minutos</span><span>Resultado inmediato</span></div>
+  </section>`;
+  document.getElementById('start').onclick = ()=>{ step=0; render(); };
+  setProgress();
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[step];
+  const a = answers[q.id];
+  let body = '';
+
+  if(q.type==='text'){
+    body = `<div class="field"><input id="inp" type="${q.email?'email':'text'}" placeholder="${q.ph}" value="${a?escapeHtml(a):''}" autocomplete="off"/></div>`;
+  } else if(q.type==='chips'){
+    body = `<div class="chips">` + q.opts.map(o=>{
+      const sel = q.multi ? (Array.isArray(a)&&a.includes(o)) : (a===o);
+      return `<div class="chip ${sel?'sel':''}" data-v="${escapeHtml(o)}">${o}</div>`;
+    }).join('') + `</div>`;
+  } else if(q.type==='cards'){
+    body = `<div class="cards">` + q.opts.map(o=>{
+      const sel = a===o.l;
+      return `<div class="card ${sel?'sel':''}" data-v="${escapeHtml(o.l)}"><div class="card-l">${o.l}</div><div class="card-s">${o.s}</div></div>`;
+    }).join('') + `</div>`;
+  }
+
+  const skip = q.opt ? `<button class="btn-skip" id="skip">Omitir</button>` : '';
+  app.innerHTML = `
+  <section class="stage fade">
+    <div class="eyebrow">${q.eye} <span class="q-index">${String(step+1).padStart(2,'0')} / ${QUESTIONS.length}</span></div>
+    <h1 class="q-title">${heading(q)}</h1>
+    ${body}
+    <div class="nav-row">
+      <button class="back" id="back" ${step===0?'style="visibility:hidden"':''}>← Atrás</button>
+      <div class="nav-actions">${skip}<button class="btn" id="next" disabled>Continuar</button></div>
+    </div>
+  </section>`;
+
+  const nextBtn = document.getElementById('next');
+  const validate = ()=>{ nextBtn.disabled = !isAnswered(q); };
+
+  if(q.type==='text'){
+    const inp = document.getElementById('inp');
+    inp.focus();
+    inp.addEventListener('input', ()=>{ answers[q.id]=inp.value.trim(); validate(); });
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter' && !nextBtn.disabled) goNext(); });
+  } else {
+    app.querySelectorAll('[data-v]').forEach(el=>{
+      el.onclick = ()=>{
+        const v = el.getAttribute('data-v');
+        if(q.multi){
+          let arr = Array.isArray(answers[q.id]) ? answers[q.id].slice() : [];
+          if(arr.includes(v)) arr = arr.filter(x=>x!==v); else arr.push(v);
+          answers[q.id]=arr;
+          el.classList.toggle('sel');
+        } else {
+          answers[q.id]=v;
+          app.querySelectorAll('[data-v]').forEach(x=>x.classList.remove('sel'));
+          el.classList.add('sel');
+        }
+        validate(); setProgress();
+      };
+    });
+  }
+  validate();
+  document.getElementById('back').onclick = goBack;
+  nextBtn.onclick = goNext;
+  if(skip) document.getElementById('skip').onclick = ()=>{ answers[q.id]=answers[q.id]||''; goNext(); };
+  setProgress();
+}
+
+function heading(q){
+  const name = (answers.name||'').split(/\s+/)[0];
+  if(name && q.id!=='name'){
+    // Personaliza la primera pregunta de cada bloque distinto del perfil
+    return `<span class="hl">${escapeHtml(name)},</span> ${lower(q.q)}`;
+  }
+  return q.q;
+}
+function lower(s){ return s.charAt(0).toLowerCase()+s.slice(1); }
+
+function isAnswered(q){
+  const a = answers[q.id];
+  if(q.opt) return true;
+  if(q.multi) return Array.isArray(a) && a.length>0;
+  if(q.email) return /.+@.+\..+/.test(a||'');
+  return a!=null && String(a).trim()!=='';
+}
+
+function goNext(){
+  if(step < QUESTIONS.length-1){ step++; render(); }
+  else { renderCalc(); }
+}
+function goBack(){ if(step>0){ step--; render(); } else { step=-1; render(); } }
+
+function renderCalc(){
+  app.innerHTML = `<section class="stage calc fade"><div class="ring"></div><h2>Procesando tu diagnóstico…</h2><p>Calibrando tu nivel de dominio de IA</p></section>`;
+  progressBar.style.width='100%';
+  submit();
+  setTimeout(renderResult, 1600);
+}
+
+function renderResult(){
+  const score = liveScore();
+  const lv = levelFor(score);
+  const name = (answers.name||'').split(/\s+/)[0]||'';
+  const waMsg = encodeURIComponent(`Hola STANNUM, soy ${answers.name||''} (${answers.company||''}). Hice el Test de Dominio IA, nivel ${lv.name} (${score}/100). Quiero reservar mi lugar en el ${CONFIG.EVENT}.`);
+  const wa = `https://wa.me/${CONFIG.WHATSAPP}?text=${waMsg}`;
+
+  app.innerHTML = `
+  <section class="stage result fade">
+    <div class="res-head">
+      <div class="eyebrow">Tu diagnóstico${name?` · ${escapeHtml(name)}`:''}</div>
+    </div>
+    <div class="gauge-wrap">${gauge(score)}</div>
+    <div class="level-name">Nivel <span class="hl">${lv.name}</span></div>
+    <div class="level-tag">${lv.tag}</div>
+
+    <div class="res-card">
+      <div class="k">Lectura ejecutiva</div>
+      <div class="res-desc">${lv.desc}</div>
+    </div>
+    <div class="res-card">
+      <div class="k">Solución STANNUM recomendada</div>
+      <div class="sol-name">${lv.sol}</div>
+      <div class="sol-d">${lv.solD}</div>
+    </div>
+    <div class="res-card">
+      <div class="k">Tus dimensiones</div>
+      <div class="bars" id="bars"></div>
+    </div>
+
+    <div class="cta-final">
+      <h3>Llevá tu diagnóstico al <span class="hl">${CONFIG.EVENT}</span></h3>
+      <p>Reservá tu lugar y trabajá tu nivel en vivo con el equipo de STANNUM. Cupos limitados.</p>
+      <a class="wa-btn" href="${wa}" target="_blank" rel="noopener">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.821 11.821 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zM6.597 20.13c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.599 5.39l-.998 3.648 3.889-1.337zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        Reservar mi lugar por WhatsApp
+      </a>
+      <div class="email-note">📩 Te enviamos el diagnóstico completo a <b>${escapeHtml(answers.email||'tu email')}</b>.</div>
+    </div>
+  </section>`;
+
+  // animar barras de dimensiones
+  const dims = dimensions();
+  const bars = document.getElementById('bars');
+  bars.innerHTML = dims.map(d=>`<div class="bar-row"><div class="bl"><span>${d.label}</span><span>${d.val}%</span></div><div class="bar-track"><div class="bar-fill" data-w="${d.val}"></div></div></div>`).join('');
+  requestAnimationFrame(()=>setTimeout(()=>{ bars.querySelectorAll('.bar-fill').forEach(b=>b.style.width=b.getAttribute('data-w')+'%'); },120));
+  window.scrollTo({top:0});
+}
+
+function dimensions(){
+  const val=id=>{ const q=QUESTIONS.find(x=>x.id===id); const o=q.opts.find(o=>o.l===answers[id]); return o?o.v:0; };
+  return [
+    {label:"Frecuencia de uso", val:val('freq')},
+    {label:"Método y prompting", val:val('reaccion')},
+    {label:"Integración en el equipo", val:val('integracion')},
+    {label:"Autopercepción de dominio", val:val('nivel')}
+  ];
+}
+
+function gauge(score){
+  // semicírculo 0-100
+  const cx=150, cy=150, r=120, start=180, end=180+(score/100)*180;
+  const pol=(deg)=>{ const a=deg*Math.PI/180; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; };
+  const [x1,y1]=pol(180), [x2,y2]=pol(360), [px,py]=pol(end);
+  const large = (end-start)>180?1:0;
+  return `<div class="gauge"><svg viewBox="0 0 300 170">
+    <path d="M${x1} ${y1} A${r} ${r} 0 0 1 ${x2} ${y2}" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="14" stroke-linecap="round"/>
+    <path d="M${x1} ${y1} A${r} ${r} 0 ${large} 1 ${px} ${py}" fill="none" stroke="#32CBBF" stroke-width="14" stroke-linecap="round"/>
+  </svg><div class="num"><b>${score}</b><small>/ 100</small></div></div>`;
+}
+
+// ====================== SUBMIT (Apps Script + localStorage) ======================
+function submit(){
+  const score = liveScore();
+  const lv = levelFor(score);
+  const payload = {
+    id: 'stx-'+Date.now(),
+    date: new Date().toISOString(),
+    event: CONFIG.EVENT,
+    name: answers.name||'', company: answers.company||'', role: answers.role||'',
+    email: answers.email||'', phone: answers.phone||'',
+    team: answers.team||'', time: answers.time||'',
+    plats: answers.plats||[], pago: answers.pago||'',
+    areas: answers.areas||[], reaccion: answers.reaccion||'', integracion: answers.integracion||'',
+    funciones: answers.funciones||[], conceptos: answers.conceptos||[], aprender: answers.aprender||[],
+    freq: answers.freq||'', autonivel: answers.nivel||'',
+    score: score, levelN: lv.n, levelName: lv.name, solution: lv.sol
+  };
+  // guardar local (respaldo + dashboard offline)
+  try{
+    const prev = JSON.parse(localStorage.getItem('stannum:tucuman:submissions')||'[]');
+    prev.push(payload);
+    localStorage.setItem('stannum:tucuman:submissions', JSON.stringify(prev));
+    localStorage.setItem('stannum:tucuman:last', JSON.stringify(payload));
+  }catch(e){}
+  // enviar al backend (Apps Script) si está configurado
+  if(CONFIG.APPS_SCRIPT_URL){
+    fetch(CONFIG.APPS_SCRIPT_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload)
+    }).catch(()=>{});
+  }
+}
+
+// ====================== UTILS ======================
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function render(){ if(step<0) renderSplash(); else renderQuestion(); }
+render();
+</script>
+</body>
+</html>

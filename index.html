@@ -6,12 +6,16 @@
 <title>IA SUMMIT TUCUMÁN 2026 — STANNUM · 17 de junio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://unpkg.com" crossorigin/>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin/>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin/>
+<link rel="preconnect" href="https://prod.spline.design" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.14/dist/lenis.css">
 <script type="importmap">
 { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
 </script>
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js"></script>
+<!-- spline-viewer: carga diferida por JS (solo desktop, tras el primer render) para no bloquear -->
 
 <style>
 /* =====================================================
@@ -102,6 +106,7 @@ nav.scrolled{
 }
 .nlogo-iso svg{width:22px;height:22px}
 .nname{font-family:var(--fd);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--white)}
+.nlogo-img{height:26px;width:auto;display:block}
 .nlinks{display:flex;gap:36px;list-style:none}
 .nlinks a{
   font-family:var(--fm);font-size:10px;letter-spacing:.2em;
@@ -170,8 +175,8 @@ nav.scrolled{
 }
 .hero-h1{
   font-family:var(--fd);
-  font-size:clamp(52px,7.5vw,110px);
-  line-height:.87;letter-spacing:-.025em;text-transform:uppercase;
+  font-size:clamp(44px,6vw,92px);
+  line-height:.9;letter-spacing:-.03em;text-transform:uppercase;
   margin-bottom:32px;
 }
 .hero-h1 .line{display:block;overflow:hidden}
@@ -860,6 +865,9 @@ footer{
   .hero-left{padding:0 24px;padding-top:90px;max-width:100%}
   .hero-spline{display:none}
   .hero::after{background:none}
+  .iso3d-layout{grid-template-columns:1fr;gap:32px}
+  #iso3d-wrap{display:none}
+  .iso3d-sec{min-height:auto;padding:70px 24px}
   .hero-claim{font-size:15px}
   .hero-ctas{flex-wrap:wrap}
   .hero-scroll{display:none}
@@ -1138,15 +1146,7 @@ footer{
     justify-content:flex-start;
     padding-bottom:0 !important;
   }
-  .hero-spline{
-    display:block !important;
-    position:relative !important;
-    width:100% !important;
-    height:340px !important;
-    order:1;
-    flex-shrink:0;
-    pointer-events:auto;
-  }
+  .hero-spline{display:none !important;}
   .hero-spline spline-viewer{
     width:100% !important;
     height:100% !important;
@@ -1171,15 +1171,8 @@ footer{
 <!-- NAV -->
 <nav id="mnav">
   <div class="nlogo-group">
-    <a href="#" class="nlogo">
-      <div class="nlogo-iso">
-        <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-          <rect width="160" height="160" rx="18" fill="#000"/>
-          <path fill="#32CBBF" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
-          <path fill="#32CBBF" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
-        </svg>
-      </div>
-      <span class="nname">STANNUM</span>
+    <a href="index.html" class="nlogo">
+      <img src="stannum-logo.png" alt="STANNUM" class="nlogo-img"/>
     </a>
     <span class="nav-sep">×</span>
     <div class="nlogo-ag" style="gap:10px">
@@ -1199,7 +1192,7 @@ footer{
     <li><a href="#latam">Alcance</a></li>
     <li><a href="#registro">Inscripción</a></li>
   </ul>
-  <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="ncta">Reservar lugar →</a>
+  <a href="test.html" class="ncta">Reservar lugar →</a>
   <button class="hbg" id="hbgBtn" aria-label="Menú" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -1214,15 +1207,15 @@ footer{
     <li><a href="#beneficios">Beneficios</a></li>
     <li><a href="#registro" class="hl">Inscripción →</a></li>
   </ul>
-  <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="mnav-cta-m">RESERVAR LUGAR</a>
+  <a href="test.html" class="mnav-cta-m">RESERVAR LUGAR</a>
   <div class="mnav-meta-m">IA SUMMIT TUCUMÁN · 17.06.2026</div>
 </div>
 
 <!-- ─── Floating WhatsApp CTA ─── -->
-<a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026"
-   target="_blank" class="wa-float" id="waFloat" aria-label="Reservar por WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+<a href="test.html"
+   class="wa-float" id="waFloat" aria-label="Reservar lugar · Hacer el test">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 12h14M13 5l7 7-7 7"/>
   </svg>
   RESERVAR
 </a>
@@ -1245,7 +1238,7 @@ footer{
     </div>
     <div class="hero-ctas" id="hctas">
       <div class="mbtn-wrap">
-        <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="btn-primary">RESERVAR LUGAR →</a>
+        <a href="test.html" class="btn-primary">RESERVAR LUGAR →</a>
       </div>
       <a href="#agenda" class="btn-outline">Ver agenda</a>
     </div>
@@ -1502,7 +1495,7 @@ footer{
     <h2 class="cta-h gsap-hide">RESERVÁ<br>TU <span class="ghost">LUGAR</span></h2>
     <p class="cta-sub gsap-hide">Cupos limitados para ejecutivos y líderes del NOA. El precio se informa por WhatsApp.</p>
     <div class="mbtn-wrap gsap-hide">
-      <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank" class="gbtn">ESCRIBIR POR WHATSAPP</a>
+      <a href="test.html" class="gbtn">RESERVAR MI LUGAR →</a>
     </div>
     <div class="cta-note gsap-hide" style="font-size:13px;color:rgba(255,255,255,.35);letter-spacing:.12em;margin-top:28px">
       <a href="https://wa.me/5493814763535?text=Quiero+reservar+mi+lugar+IA+Summit+Tucuman+2026" target="_blank"
@@ -1515,39 +1508,7 @@ footer{
   </div>
 </section>
 
-<!-- ═══ CO-PRODUCCIÓN ═══ -->
-<section class="coprod-sec" id="coproduccion">
-  <div class="coprod-sec-bg"></div>
-  <div class="coprod-inner">
-    <div class="coprod-label">Producido en conjunto</div>
-    <h2 class="coprod-heading">UN EVENTO<br>DOS IDENTIDADES</h2>
-    <div class="coprod-row">
-      <div class="coprod-logo-block">
-        <div class="coprod-logo-display">
-          <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-            <rect width="160" height="160" rx="18" fill="#0a0a0a"/>
-            <path fill="#32CBBF" d="M103 0L160 0L92 58L124 58L150 80L62 160L0 160L72 92L38 92L16 70Z"/>
-            <path fill="#32CBBF" d="M92 58L124 58L150 80L114 112L78 112L110 82L70 82Z"/>
-          </svg>
-        </div>
-        <div class="coprod-name">STANNUM</div>
-        <div class="coprod-sub">Alto Rendimiento Argentina</div>
-      </div>
-      <div class="coprod-sep">
-        <div class="coprod-sep-line"></div>
-        <div class="coprod-sep-x">×</div>
-        <div class="coprod-sep-line"></div>
-      </div>
-      <div class="coprod-logo-block">
-        <div class="coprod-logo-display">
-          <img src="agencia-g.svg" alt="Agencia G — Gabriel Lazarte"/>
-        </div>
-        <div class="coprod-name" style="text-transform:none;letter-spacing:.05em">Gabriel Páez Laurent</div>
-        <div class="coprod-sub" style="text-transform:uppercase">Agencia de Eventos</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- (sección co-producción removida a pedido) -->
 
 <!-- ═══ FOOTER ═══ -->
 <footer>
@@ -1591,7 +1552,20 @@ footer{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js" defer></script>
+<!-- Carga diferida del robot Spline: solo desktop, tras el primer render -->
+<script>
+(function(){
+  if(!window.matchMedia('(min-width:769px)').matches) return; // celular: sin robot 3D (ahorra ~5MB)
+  function loadSpline(){
+    var s=document.createElement('script'); s.type='module';
+    s.src='https://unpkg.com/@splinetool/viewer@1.9.82/build/spline-viewer.js';
+    document.head.appendChild(s);
+  }
+  if(document.readyState==='complete') setTimeout(loadSpline,300);
+  else window.addEventListener('load', function(){ setTimeout(loadSpline,300); });
+})();
+</script>
 
 <script>
 (function(){
@@ -2380,10 +2354,10 @@ if(heroCTAs && waFloatEl && 'IntersectionObserver' in window){
 
 <!-- ═══ STANNUM 3D ENGRAVED LOGO — Co-production ═══ -->
 <script type="module">
-import * as THREE from 'three';
-
 const host = document.getElementById('iso3d-wrap');
-if (!host) { /* noop */ } else {
+// Isotipo 3D solo en desktop (evita bajar three.module ~1.3MB en celular)
+if (host && window.matchMedia('(min-width:769px)').matches) {
+const THREE = await import('three');
 let W = host.clientWidth, H = host.clientHeight;
 
 const scene = new THREE.Scene();
