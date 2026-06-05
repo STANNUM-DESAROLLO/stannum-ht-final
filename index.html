@@ -631,7 +631,7 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 /* ─── BENEFICIOS ─────────────────────── */
 .beneficios{
   position:relative;z-index:3;
-  background:var(--c1);padding:120px 56px;
+  background:var(--c1);padding:72px 56px;
 }
 .benef-inner{max-width:1200px;margin:0 auto}
 .benef-grid{
@@ -649,6 +649,29 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 .benef-num{font-family:var(--fm);font-size:11px;letter-spacing:.2em;color:rgba(50,203,191,.35);text-transform:uppercase;margin-bottom:20px}
 .benef-title{font-family:var(--fd);font-size:18px;letter-spacing:-.01em;text-transform:uppercase;margin-bottom:12px;line-height:1.1}
 .benef-desc{font-size:14px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.65}
+
+/* ─── MESAS DE TRABAJO ─────────────────── */
+.mesas{position:relative;z-index:3;background:var(--ink);padding:72px 56px;overflow:hidden}
+.mesas-inner{max-width:1200px;margin:0 auto}
+.mesas-intro{font-size:17px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.75;max-width:760px;margin-top:6px}
+.mesas-sub{font-family:var(--fm);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);margin:44px 0 20px;display:flex;align-items:center;gap:10px}
+.mesas-sub::before{content:'//';color:rgba(50,203,191,.5)}
+.dom-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.impact-item{background:linear-gradient(148deg,#141616,#101212);border-left:1px solid rgba(50,203,191,.18);padding:22px 24px;transition:border-color .3s}
+.impact-item:hover{border-left-color:var(--cyan)}
+.impact-item strong{display:block;font-family:var(--fb);font-weight:600;font-size:15px;color:#fff;margin-bottom:6px}
+.impact-item span{font-size:13px;font-weight:300;color:rgba(255,255,255,.4);line-height:1.55}
+.horizon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+.benef-card.horizon{border-top-color:rgba(255,255,255,.12);opacity:.7}
+.benef-card.horizon .benef-num{color:rgba(255,255,255,.3)}
+.benef-card.horizon:hover{opacity:1;border-top-color:rgba(50,203,191,.4)}
+.mesas-method{margin-top:46px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:22px 26px;background:rgba(50,203,191,.03)}
+.mesas-method .mm-lead{font-size:15px;color:rgba(255,255,255,.65);margin-right:6px}
+.mesas-method .mm-lead b{color:#fff}
+.mesas-method .mm-tag{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(50,203,191,.25);padding:7px 14px;border-radius:999px}
+@media(max-width:900px){.dom-grid,.impact-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.mesas{padding:52px 22px}.dom-grid,.impact-grid,.horizon-grid{grid-template-columns:1fr}.mesas-method{flex-direction:column;align-items:flex-start}}
 
 /* ─── TRUST ──────────────────────────── */
 .trust{
@@ -1535,6 +1558,43 @@ footer{
   </div>
 </section>
 
+<!-- ═══ MESAS DE TRABAJO POR DOMINIOS DE IA ═══ -->
+<section class="mesas" id="mesas">
+  <div class="mesas-inner">
+    <div class="sec-label gsap-hide">Dinámica del evento</div>
+    <h2 class="sec-heading gsap-hide">MESAS DE TRABAJO<br>POR DOMINIOS DE IA</h2>
+    <p class="mesas-intro gsap-hide">Durante la jornada trabajamos sobre los dominios de adopción de IA que forman la columna vertebral del recorrido STANNUM. Cada participante identifica en qué nivel está hoy su organización, qué oportunidades concretas tiene por delante y qué próximos pasos puede activar de forma realista.</p>
+
+    <div class="mesas-sub gsap-hide">El foco está en los primeros 4 dominios</div>
+    <div class="dom-grid">
+      <div class="benef-card gsap-hide"><div class="benef-num">01 · Dominio</div><div class="benef-title">Diseño de prompts</div><div class="benef-desc">Pedir con claridad, objetivo y contexto para obtener mejores respuestas y usar la IA como una herramienta de trabajo concreta.</div></div>
+      <div class="benef-card gsap-hide"><div class="benef-num">02 · Dominio</div><div class="benef-title">Personalización</div><div class="benef-desc">Cargar contexto del negocio, rol, cliente o problema para que la IA deje de responder genérico y se adapte a cada organización.</div></div>
+      <div class="benef-card gsap-hide"><div class="benef-num">03 · Dominio</div><div class="benef-title">Funciones avanzadas</div><div class="benef-desc">Ordenar información, comparar alternativas, analizar escenarios y asistir decisiones con más velocidad y profundidad.</div></div>
+      <div class="benef-card gsap-hide"><div class="benef-num">04 · Dominio</div><div class="benef-title">Asistentes personalizados</div><div class="benef-desc">Diseñar copilotos por rol o proceso, capaces de acompañar tareas específicas dentro de la empresa y mejorar la productividad del equipo.</div></div>
+    </div>
+
+    <div class="mesas-sub gsap-hide" style="margin-top:52px">Impacto directo en tu agenda</div>
+    <div class="impact-grid">
+      <div class="impact-item gsap-hide"><strong>Decisión estratégica</strong><span>Modelado de escenarios y mitigación de riesgos.</span></div>
+      <div class="impact-item gsap-hide"><strong>Investigación de mercado</strong><span>Extracción de insights a alta velocidad.</span></div>
+      <div class="impact-item gsap-hide"><strong>Comparación competitiva</strong><span>Análisis profundo de actores del sector.</span></div>
+      <div class="impact-item gsap-hide"><strong>Posicionamiento</strong><span>Optimización de la propuesta de valor.</span></div>
+      <div class="impact-item gsap-hide"><strong>Planificación estratégica</strong><span>Proyección de variables complejas.</span></div>
+      <div class="impact-item gsap-hide"><strong>Decisiones difíciles con IA</strong><span>La herramienta como panel de debate.</span></div>
+    </div>
+
+    <div class="mesas-sub gsap-hide" style="margin-top:52px">Horizonte de evolución</div>
+    <div class="horizon-grid">
+      <div class="benef-card horizon gsap-hide"><div class="benef-num">05 · Horizonte</div><div class="benef-title">Automatizaciones con IA</div><div class="benef-desc">Rediseñar flujos y procesos para que la IA no solo asista, sino que también ejecute partes del trabajo.</div></div>
+      <div class="benef-card horizon gsap-hide"><div class="benef-num">06 · Horizonte</div><div class="benef-title">Agentes IA</div><div class="benef-desc">Sistemas con autonomía supervisada, capaces de operar tareas, coordinar acciones y sostener procesos bajo criterios definidos.</div></div>
+    </div>
+
+    <div class="mesas-method gsap-hide">
+      <span class="mm-lead">Cada dominio se traduce en <b>4 puntos concretos</b>:</span>
+      <span class="mm-tag">Diagnóstico actual</span><span class="mm-tag">Oportunidad</span><span class="mm-tag">Barrera</span><span class="mm-tag">Próximo paso</span>
+    </div>
+  </div>
+</section>
 
 <!-- ═══ REGISTRO / CTA ═══ -->
 <section class="registro" id="registro">
