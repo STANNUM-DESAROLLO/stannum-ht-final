@@ -296,7 +296,7 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 /* ─── STAT ─────────────────────────────── */
 .stat-sec{
   position:relative;z-index:3;
-  min-height:90vh;display:flex;align-items:center;justify-content:center;
+  min-height:auto;padding:104px 56px;display:flex;align-items:center;justify-content:center;
   background:var(--black);overflow:hidden;
 }
 .stat-sec::before{
@@ -309,7 +309,7 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 .stat-inner{position:relative;z-index:1;text-align:center;max-width:900px;padding:0 56px}
 .stat-num{
   font-family:var(--fd);
-  font-size:clamp(120px,22vw,280px);
+  font-size:clamp(64px,11vw,150px);
   line-height:.85;letter-spacing:-.04em;text-transform:uppercase;
   background:linear-gradient(180deg,#fff 25%,rgba(255,255,255,.15) 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -329,7 +329,7 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 .white-break{
   position:relative;z-index:3;
   background:var(--white);overflow:hidden;
-  padding:100px 56px 0;min-height:88vh;
+  padding:84px 56px 0;min-height:auto;
   display:flex;flex-direction:column;
 }
 .wb-label{font-family:var(--fm);font-size:10px;letter-spacing:.28em;color:rgba(0,0,0,.35);text-transform:uppercase;margin-bottom:32px}
@@ -355,13 +355,13 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 .speaker-inner{
   position:relative;z-index:1;
   display:grid;grid-template-columns:1fr 1fr;
-  min-height:90vh;
+  min-height:auto;
 }
 /* Photo side */
 .spk-photo-col{
   position:relative;overflow:hidden;
   background:var(--black);
-  min-height:600px;
+  min-height:500px;
 }
 .spk-photo-col img{
   width:100%;height:100%;
@@ -413,9 +413,9 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
   position:relative;z-index:3;
   background:var(--black);
   overflow:hidden;
-  padding:100px 56px;
+  padding:88px 56px;
   display:flex;align-items:center;justify-content:center;
-  min-height:80vh;
+  min-height:auto;
 }
 .iso3d-bg{
   position:absolute;inset:0;
@@ -666,7 +666,7 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 /* ─── CTA ─────────────────────────────── */
 .registro{
   position:relative;z-index:3;
-  background:var(--black);min-height:100vh;
+  background:var(--black);min-height:auto;padding:104px 56px;
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;text-align:center;
 }
