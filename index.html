@@ -585,7 +585,7 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 /* ─── LATAM GLOBE ──────────────────────── */
 .globe-sec{
   position:relative;z-index:3;
-  background:var(--c1);padding:120px 56px;overflow:hidden;
+  background:var(--c1);padding:64px 56px;overflow:hidden;
 }
 .globe-sec-bg{
   position:absolute;inset:0;
@@ -617,11 +617,16 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
   display:flex;align-items:center;justify-content:center;
   position:relative;
 }
-#globeCanvas{
-  cursor:grab;
-  border-radius:50%;
-}
-#globeCanvas:active{cursor:grabbing}
+.presence-map{position:relative;width:100%;max-width:440px;margin:0 auto}
+.presence-map svg{width:100%;height:auto;display:block;overflow:visible}
+.pm-routes line{stroke:rgba(50,203,191,.22);stroke-width:1;stroke-dasharray:3 5}
+.pm-glow{fill:rgba(50,203,191,.14)}
+.pm-dot{fill:var(--cyan)}
+.pm-city.hl .pm-glow{fill:rgba(50,203,191,.22);animation:pmPulse 2.4s ease-in-out infinite}
+@keyframes pmPulse{0%,100%{opacity:.6}50%{opacity:.2}}
+.pm-label{font-family:var(--fm);font-size:11px;letter-spacing:.04em;fill:rgba(255,255,255,.62)}
+.pm-label.hl{fill:var(--cyan);font-size:12px}
+.pm-caption{font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);text-align:center;margin-top:18px}
 
 /* ─── BENEFICIOS ─────────────────────── */
 .beneficios{
@@ -1462,11 +1467,30 @@ footer{
       <div class="sec-label gsap-hide">Presencia LATAM</div>
       <h2 class="sec-heading gsap-hide" style="margin-bottom:28px">STANNUM<br>EN LATAM</h2>
       <p class="globe-desc gsap-hide">Líderes y equipos transformados en toda la región. El NOA es el punto de partida del viaje hacia el alto rendimiento con IA.</p>
-      <div class="globe-cities" id="globeCities"></div>
-      <div class="globe-drag-hint" style="margin-top:12px">Arrastrá el globo para explorar</div>
+      <div class="globe-cities" id="globeCities">
+        <div class="city-chip">ARG · Buenos Aires</div>
+        <div class="city-chip active">NOA · Tucumán</div>
+        <div class="city-chip">ARG · Chubut</div>
+        <div class="city-chip">PAR · Asunción</div>
+        <div class="city-chip">CHI · Santiago</div>
+      </div>
     </div>
-    <div class="globe-canvas-wrap gsap-hide">
-      <canvas id="globeCanvas" width="400" height="400" style="width:400px;height:400px"></canvas>
+    <div class="presence-map gsap-hide">
+      <svg viewBox="0 0 440 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa de presencia STANNUM: Buenos Aires, Tucumán, Chubut, Asunción y Santiago">
+        <g class="pm-routes">
+          <line x1="193" y1="87" x2="358" y2="61"/>
+          <line x1="193" y1="87" x2="76" y2="224"/>
+          <line x1="193" y1="87" x2="340" y2="246"/>
+          <line x1="340" y1="246" x2="196" y2="405"/>
+          <line x1="340" y1="246" x2="76" y2="224"/>
+        </g>
+        <g class="pm-city"><circle class="pm-glow" cx="358" cy="61" r="13"/><circle class="pm-dot" cx="358" cy="61" r="4.5"/><text class="pm-label" x="346" y="65" text-anchor="end">Asunción</text></g>
+        <g class="pm-city hl"><circle class="pm-glow" cx="193" cy="87" r="18"/><circle class="pm-dot" cx="193" cy="87" r="6"/><text class="pm-label hl" x="208" y="84" text-anchor="start">Tucumán · NOA</text></g>
+        <g class="pm-city"><circle class="pm-glow" cx="76" cy="224" r="13"/><circle class="pm-dot" cx="76" cy="224" r="4.5"/><text class="pm-label" x="88" y="228" text-anchor="start">Santiago</text></g>
+        <g class="pm-city"><circle class="pm-glow" cx="340" cy="246" r="13"/><circle class="pm-dot" cx="340" cy="246" r="4.5"/><text class="pm-label" x="328" y="250" text-anchor="end">Buenos Aires</text></g>
+        <g class="pm-city"><circle class="pm-glow" cx="196" cy="405" r="13"/><circle class="pm-dot" cx="196" cy="405" r="4.5"/><text class="pm-label" x="210" y="409" text-anchor="start">Chubut</text></g>
+      </svg>
+      <div class="pm-caption">Presencia en Argentina, Paraguay y Chile</div>
     </div>
   </div>
 </section>
