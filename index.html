@@ -1145,36 +1145,36 @@ footer{
 
 /* ─── AGENDA MOBILE LIST ─────────────── */
 .agenda-list-mobile{
-  display:none;
+  display:flex;
   flex-direction:column;gap:0;
   margin-top:48px;width:100%;
   border:1px solid rgba(50,203,191,.12);
 }
+.radial-orbit-wrap,.radial-detail,.radial-hint{display:none}
 .alm-item{
-  display:flex;align-items:flex-start;gap:14px;
-  padding:18px 20px;cursor:pointer;
-  border-bottom:1px solid rgba(255,255,255,.04);
+  display:flex;align-items:flex-start;gap:20px;
+  padding:22px 26px;cursor:default;
+  border-bottom:1px solid rgba(255,255,255,.05);
   transition:background .2s;
 }
 .alm-item:last-child{border-bottom:none}
 .alm-item.active{background:rgba(50,203,191,.04);border-left:2px solid var(--cyan)}
 .alm-item:not(.active){border-left:2px solid transparent}
 .alm-time{
-  font-family:var(--fm);font-size:11px;font-weight:500;
-  color:rgba(50,203,191,.65);letter-spacing:.08em;
-  white-space:nowrap;flex-shrink:0;padding-top:2px;
-  min-width:44px;
+  font-family:var(--fm);font-size:13px;font-weight:500;
+  color:rgba(50,203,191,.75);letter-spacing:.08em;
+  white-space:nowrap;flex-shrink:0;padding-top:3px;
+  min-width:60px;
 }
 .alm-title{
-  font-family:var(--fd);font-size:13px;letter-spacing:-.005em;
+  font-family:var(--fd);font-size:16px;letter-spacing:-.005em;
   text-transform:uppercase;line-height:1.2;color:var(--white);
-  transition:margin .25s;
+  margin-bottom:6px;
 }
 .alm-item.active .alm-title{margin-bottom:8px}
 .alm-desc{
-  font-size:13px;font-weight:300;color:rgba(255,255,255,.4);
-  line-height:1.6;max-height:0;overflow:hidden;
-  transition:max-height .3s ease;
+  font-size:14px;font-weight:300;color:rgba(255,255,255,.42);
+  line-height:1.6;
 }
 .alm-item.active .alm-desc{max-height:120px}
 
