@@ -257,6 +257,11 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 .hero-iso{position:relative;width:min(480px,44vw);height:min(480px,44vw);}
 .hero-iso::after{content:'';position:absolute;inset:-16%;z-index:-1;
   background:radial-gradient(ellipse at 50% 50%,rgba(50,203,191,.16),transparent 62%);}
+.hero-summit-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:min(360px,32vw);z-index:4;pointer-events:none;
+  filter:drop-shadow(0 8px 26px rgba(0,0,0,.55)) drop-shadow(0 0 30px rgba(50,203,191,.32));
+  animation:logoFloat 5.5s ease-in-out infinite;}
+@keyframes logoFloat{0%,100%{transform:translate(-50%,-50%) translateY(0)}50%{transform:translate(-50%,-50%) translateY(-12px)}}
 .hero-scroll{
   position:absolute;right:52px;bottom:44px;z-index:3;
   display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -1302,6 +1307,7 @@ footer{
   </div>
   <div class="hero-spline">
     <div id="hero-iso3d" class="hero-iso"></div>
+    <img src="summit-logo.png" class="hero-summit-logo" alt="IA Summit Tucumán 2026" decoding="async"/>
   </div>
   <div class="hero-scroll" id="hscroll">
     <div class="sline"></div>
