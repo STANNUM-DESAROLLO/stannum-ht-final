@@ -400,7 +400,10 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 .spk-label::before{content:'// '}
 .spk-name{font-family:var(--fd);font-size:clamp(44px,6vw,80px);line-height:.9;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:16px}
 .spk-role{font-family:var(--fm);font-size:11px;letter-spacing:.22em;color:rgba(50,203,191,.7);text-transform:uppercase;margin-bottom:28px}
-.spk-bio{font-size:16px;font-weight:300;color:var(--ghost);line-height:1.75;max-width:440px;margin-bottom:36px}
+.spk-bio{font-size:16px;font-weight:300;color:var(--ghost);line-height:1.75;max-width:440px;margin-bottom:26px}
+.spk-highlight{display:flex;align-items:center;gap:14px;border-left:2px solid var(--cyan);padding-left:16px;margin:0 0 26px}
+.spk-highlight b{font-family:var(--fd);font-size:clamp(34px,4vw,48px);color:var(--cyan);line-height:1}
+.spk-highlight span{font-size:14px;color:rgba(255,255,255,.55);line-height:1.4}
 .spk-creds{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
 .spk-cred{
   display:flex;align-items:center;gap:12px;
@@ -729,6 +732,14 @@ nav.scrolled .ncta{opacity:1;visibility:visible;transform:none}
 .cta-h{font-family:var(--fd);font-size:clamp(52px,9vw,116px);line-height:.87;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:24px}
 .cta-h .ghost{color:transparent;-webkit-text-stroke:1.5px rgba(50,203,191,.45)}
 .cta-sub{font-size:16px;font-weight:300;color:var(--ghost);max-width:400px;margin:0 auto 48px;line-height:1.75}
+.countdown{display:flex;justify-content:center;align-items:flex-start;gap:10px;margin:0 auto 22px;flex-wrap:wrap}
+.cd-unit{display:flex;flex-direction:column;align-items:center;min-width:74px;padding:16px 8px;border:1px solid var(--line);border-radius:12px;background:rgba(50,203,191,.03)}
+.cd-num{font-family:var(--fd);font-size:clamp(26px,4vw,42px);color:var(--cyan);line-height:1}
+.cd-lbl{font-family:var(--fm);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:8px}
+.cd-sep{font-family:var(--fd);font-size:26px;color:rgba(50,203,191,.3);padding-top:16px}
+.cupos-badge{display:inline-flex;align-items:center;gap:9px;font-family:var(--fm);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(50,203,191,.32);border-radius:999px;padding:10px 20px;margin-bottom:24px}
+.cupos-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:datePulse 2s ease-in-out infinite}
+@media(max-width:560px){.cd-sep{display:none}.cd-unit{min-width:62px;padding:12px 6px}.countdown{gap:8px}}
 .mbtn-wrap{display:inline-block;padding:24px;margin:-24px}
 .gbtn{
   display:inline-block;position:relative;
@@ -1383,11 +1394,11 @@ footer{
       <p class="spk-bio gsap-hide">
         Fundador y Director de STANNUM Alto Rendimiento Digital. Especialista en la profesionalización de líderes con IA. Viene entrenando a empresas y equipos comerciales a lo largo de Argentina y LATAM.
       </p>
+      <div class="spk-highlight gsap-hide"><b>+1.000</b><span>líderes entrenados en<br>Argentina y LATAM</span></div>
       <div class="spk-creds gsap-hide">
         <div class="spk-cred">TechMBA — Gestión de negocios y tecnología</div>
         <div class="spk-cred">ADEN BS + The George Washington University — IA y Big Data</div>
-        <div class="spk-cred">STANNUM — Fundador de metodología TRENNO iA</div>
-        <div class="spk-cred">+1.000 líderes entrenados en Argentina y LATAM</div>
+        <div class="spk-cred">Fundador de la metodología TRENNO iA</div>
       </div>
     </div>
   </div>
@@ -1608,7 +1619,17 @@ footer{
   <div class="cta-inner">
     <div class="cta-label gsap-hide">Martes 17 de junio · Hilton Tucumán</div>
     <h2 class="cta-h gsap-hide">RESERVÁ<br>TU <span class="ghost">LUGAR</span></h2>
-    <p class="cta-sub gsap-hide">Cupos limitados para ejecutivos y líderes del NOA. El precio se informa por WhatsApp.</p>
+    <div class="countdown gsap-hide" id="countdown" aria-label="Cuenta regresiva al evento">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-lbl">Días</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">Horas</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">Min</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">Seg</span></div>
+    </div>
+    <div class="cupos-badge gsap-hide">Solo 100 cupos · acceso exclusivo NOA</div>
+    <p class="cta-sub gsap-hide">Para ejecutivos y líderes del NOA. El precio se informa por WhatsApp.</p>
     <div class="mbtn-wrap gsap-hide">
       <a href="test.html" class="gbtn">RESERVAR MI LUGAR →</a>
     </div>
@@ -2426,6 +2447,22 @@ document.querySelectorAll('.alm-item').forEach(item => {
     item.classList.add('active');
   });
 });
+
+// ── Countdown al evento (17 jun 2026, 17:30 ART) ──
+(function(){
+  var target = new Date('2026-06-17T17:30:00-03:00').getTime();
+  var d=document.getElementById('cd-d'),h=document.getElementById('cd-h'),m=document.getElementById('cd-m'),s=document.getElementById('cd-s');
+  if(!d) return;
+  function p(n){return n<10?'0'+n:''+n;}
+  function tick(){
+    var x=target-Date.now(); if(x<0)x=0;
+    d.textContent=p(Math.floor(x/86400000));
+    h.textContent=p(Math.floor(x%86400000/3600000));
+    m.textContent=p(Math.floor(x%3600000/60000));
+    s.textContent=p(Math.floor(x%60000/1000));
+  }
+  tick(); setInterval(tick,1000);
+})();
 
 // ── Hide floating WA when hero CTA is visible ──
 const heroCTAs = document.getElementById('hctas');
